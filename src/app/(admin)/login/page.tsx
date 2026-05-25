@@ -78,7 +78,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isPending}
-                className="pl-10 pr-4 bg-[#2a2c2e] border-none text-white placeholder-slate-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transition-all rounded-full text-xs py-6 px-6 font-mono font-bold tracking-wide uppercase"
+                className="pl-10 pr-4 bg-[#2a2c2e] border-none text-white placeholder-slate-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transition-all rounded-full text-xs py-6 pr-6 font-mono font-bold tracking-wide uppercase"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isPending}
-                className="pl-10 pr-4 bg-[#2a2c2e] border-none text-white placeholder-slate-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transition-all rounded-full text-xs py-6 px-6 font-mono font-bold tracking-wide uppercase"
+                className="pl-10 pr-4 bg-[#2a2c2e] border-none text-white placeholder-slate-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transition-all rounded-full text-xs py-6 pr-6 font-mono font-bold tracking-wide uppercase"
               />
             </div>
           </div>

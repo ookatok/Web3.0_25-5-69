@@ -64,13 +64,13 @@ export default async function AdminContactsPage() {
                     <td className="py-4 px-6 space-y-1">
                       {contact.phone && (
                         <div className="flex items-center gap-1 text-[11px] text-slate-200">
-                          <Phone className="w-3 h-3 text-indigo-400" />
+                          <Phone className="w-3 h-3 text-slate-400" />
                           <span>{contact.phone}</span>
                         </div>
                       )}
                       {contact.email && (
                         <div className="flex items-center gap-1 text-[11px] text-slate-300">
-                          <Mail className="w-3 h-3 text-indigo-400" />
+                          <Mail className="w-3 h-3 text-slate-400" />
                           <span>{contact.email}</span>
                         </div>
                       )}

@@ -21,7 +21,7 @@ export default async function AdminBlogListPage() {
         </div>
 
         <Link href="/admin/blog/new">
-          <Button className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold flex items-center gap-1 text-xs rounded-lg py-4 px-5">
+          <Button className="bg-white hover:bg-neutral-200 text-black font-semibold flex items-center gap-1 text-xs rounded-lg py-4 px-5 transition-colors cursor-pointer">
             <Plus className="w-4 h-4" />
             เขียนบทความใหม่
           </Button>

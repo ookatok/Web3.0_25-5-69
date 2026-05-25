@@ -122,8 +122,8 @@ export default function ImageUploader({
         onDrop={handleDrop}
         onClick={triggerFileInput}
         className={cn(
-          "border-2 border-dashed border-slate-800 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center space-y-3 bg-slate-900/10 hover:bg-slate-900/20 hover:border-indigo-500/30",
-          isDragOver && "border-indigo-500 bg-indigo-500/5",
+          "border-2 border-dashed border-slate-800 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center space-y-3 bg-slate-900/10 hover:bg-slate-900/20 hover:border-neutral-400/30",
+          isDragOver && "border-white bg-white/5",
           disabled && "opacity-50 pointer-events-none"
         )}
       >
@@ -138,7 +138,7 @@ export default function ImageUploader({
         />
 
         {isUploading ? (
-          <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+          <Loader2 className="w-8 h-8 text-white animate-spin" />
         ) : (
           <Upload className="w-8 h-8 text-slate-500" />
         )}
@@ -167,7 +167,7 @@ export default function ImageUploader({
                 key={img}
                 className={cn(
                   "group relative aspect-square bg-slate-900 rounded-lg border border-slate-800 overflow-hidden flex flex-col justify-end transition-all",
-                  isCover && "border-indigo-500 ring-2 ring-indigo-500/20"
+                  isCover && "border-white ring-2 ring-white/20"
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -179,7 +179,7 @@ export default function ImageUploader({
 
                 {/* Cover Badge */}
                 {isCover && (
-                  <span className="absolute top-2 left-2 bg-indigo-600 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow-md flex items-center gap-1">
+                  <span className="absolute top-2 left-2 bg-white text-black text-[9px] font-bold px-2 py-0.5 rounded shadow-md flex items-center gap-1">
                     <Star className="w-2.5 h-2.5 fill-white" />
                     รูปหลัก
                   </span>
@@ -195,7 +195,7 @@ export default function ImageUploader({
                         e.stopPropagation();
                         handleSetCover(img);
                       }}
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold flex items-center gap-1 py-1 px-2.5"
+                      className="bg-white hover:bg-neutral-200 text-black font-semibold flex items-center gap-1 py-1 px-2.5 transition-colors cursor-pointer"
                     >
                       <Star className="w-3 h-3" />
                       ตั้งเป็นรูปหลัก

@@ -31,7 +31,7 @@ const MenuButton = ({
     disabled={disabled}
     className={cn(
       "p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer",
-      isActive && "bg-indigo-600 text-white hover:bg-indigo-500 hover:text-white"
+      isActive && "bg-white text-black hover:bg-neutral-200 hover:text-black"
     )}
   >
     {children}
@@ -45,7 +45,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
     editorProps: {
       attributes: {
         class: cn(
-          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-slate-800 bg-slate-950/40 p-4 text-xs font-light leading-relaxed text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all font-sans prose prose-invert max-w-none"
+          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-slate-800 bg-slate-950/40 p-4 text-xs font-light leading-relaxed text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-neutral-400/20 focus:border-neutral-400 transition-all font-sans prose prose-invert max-w-none"
         ),
       },
     },

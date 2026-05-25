@@ -108,7 +108,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
         <Button
           type="submit"
           disabled={isPending}
-          className="py-4 px-6 rounded-lg font-semibold bg-indigo-600 text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/10 flex items-center gap-2"
+          className="py-4 px-6 rounded-lg font-semibold bg-white text-black hover:bg-neutral-200 shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           {isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -140,7 +140,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isPending}
-              className="bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500 rounded-lg"
+              className="bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isPending}
-              className="w-full p-3 bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all rounded-lg text-xs font-light"
+              className="w-full p-3 bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-neutral-400/20 transition-all rounded-lg text-xs font-light"
             ></textarea>
           </div>
 
@@ -183,7 +183,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={status}
               onChange={(e) => setStatus(e.target.value as "DRAFT" | "PUBLISHED")}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
             >
               <option value="DRAFT">ฉบับร่าง (Draft)</option>
               <option value="PUBLISHED">เผยแพร่สาธารณะ (Published)</option>
@@ -200,7 +200,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
             >
               <option value="เสื้อยืด">เสื้อยืด (T-Shirt)</option>
               <option value="เสื้อโปโล">เสื้อโปโล (Polo Shirt)</option>
@@ -222,7 +222,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={client}
               onChange={(e) => setClient(e.target.value)}
               disabled={isPending}
-              className="bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500 rounded-lg text-xs"
+              className="bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg text-xs"
             />
           </div>
 
@@ -237,7 +237,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={dateStr}
               onChange={(e) => setDateStr(e.target.value)}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
             />
           </div>
         </div>

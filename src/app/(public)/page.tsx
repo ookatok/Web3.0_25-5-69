@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Shield, Award, BookOpen } from "lucide-react";
+import { ArrowRight, Shirt, Award, BookOpen } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
 
 // Mock Services
@@ -94,7 +94,7 @@ export default function HomePage() {
                 </Button>
               </Link>
               <Link href="/portfolio">
-                <Button variant="outline" className="rounded-full border-slate-700 text-white hover:bg-white hover:text-black tracking-widest text-[9px] font-bold py-5 px-6 uppercase">
+                <Button variant="outline" className="rounded-full border-slate-700 bg-transparent text-white hover:bg-white hover:text-black tracking-widest text-[9px] font-bold py-5 px-6 uppercase cursor-pointer">
                   PORTFOLIO
                 </Button>
               </Link>
@@ -186,7 +186,7 @@ export default function HomePage() {
               </p>
               <div className="pt-2">
                 <Link href="/about">
-                  <Button variant="outline" className="rounded-full border-slate-700 text-white font-mono tracking-widest text-[9px] uppercase py-5 px-6">
+                  <Button variant="outline" className="rounded-full border-slate-700 bg-transparent text-white hover:bg-white hover:text-black tracking-widest text-[9px] font-bold py-5 px-6 uppercase cursor-pointer">
                     LEARN MORE ABOUT US
                   </Button>
                 </Link>
@@ -197,7 +197,7 @@ export default function HomePage() {
               {/* Feature 1 */}
               <div className="p-6 rounded-[2rem] bg-[#1d1f22] border border-white/5 space-y-4">
                 <div className="p-2.5 bg-white/5 rounded-full text-white w-fit border border-white/10">
-                  <Shield className="w-4 h-4" />
+                  <Shirt className="w-4 h-4" />
                 </div>
                 <h4 className="font-mono text-xs uppercase font-bold tracking-wider">QUALITY CONTROL</h4>
                 <p className="text-[10px] text-slate-400 font-light leading-relaxed">คัดเกรดเนื้อผ้า ทอกลัดเกลียวหนา สกรีนคมชัด ตรวจสอบสินค้า 100% ก่อนจัดส่ง</p>

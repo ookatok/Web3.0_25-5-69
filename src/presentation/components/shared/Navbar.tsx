@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Shield } from "lucide-react";
+import { Menu, X, ArrowRight, Shirt } from "lucide-react";
 import { cn } from "@/shared/utils/cn";
 
 const navLinks = [
@@ -41,7 +41,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="p-1.5 bg-white text-black rounded-md group-hover:bg-slate-200 transition-colors">
-            <Shield className="w-4 h-4 stroke-[2.5]" />
+            <Shirt className="w-4 h-4 stroke-[2.5]" />
           </div>
           <span className="font-teko text-2xl tracking-widest text-white uppercase group-hover:text-slate-300 transition-colors pt-1">
             WEB3.0

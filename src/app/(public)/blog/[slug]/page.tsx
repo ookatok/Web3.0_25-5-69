@@ -14,7 +14,8 @@ interface BlogPostPageProps {
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await container.getPostBySlug.execute(slug, { incrementViews: false });
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await container.getPostBySlug.execute(decodedSlug, { incrementViews: false });
   if (!post) {
     return {
       title: "ไม่พบหน้าบทความ | Web3.0 Premium Services",
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await container.getPostBySlug.execute(slug, { incrementViews: true });
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await container.getPostBySlug.execute(decodedSlug, { incrementViews: true });
 
   if (!post || post.status !== "PUBLISHED") {
     notFound();

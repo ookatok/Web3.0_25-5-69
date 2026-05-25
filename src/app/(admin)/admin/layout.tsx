@@ -2,7 +2,7 @@ import React from "react";
 import { requireAdmin } from "@/infrastructure/auth/require-admin";
 import { auth } from "@/infrastructure/auth/auth";
 import Link from "next/link";
-import { LayoutDashboard, FileText, Briefcase, MessageSquare, LogOut, Shield } from "lucide-react";
+import { LayoutDashboard, FileText, Briefcase, MessageSquare, LogOut, Shirt } from "lucide-react";
 import { logoutAction } from "@/presentation/actions/auth.actions";
 
 interface AdminLayoutProps {
@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
         {/* Header/Logo */}
         <div className="h-16 flex items-center gap-3 px-6 border-b border-[#202225]">
           <div className="p-1.5 bg-white text-black rounded">
-            <Shield className="w-4 h-4 stroke-[2.5]" />
+            <Shirt className="w-4 h-4 stroke-[2.5]" />
           </div>
           <div>
             <span className="font-teko text-xl tracking-widest text-white uppercase block leading-none pt-1">

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Shield, Phone, Mail, MapPin } from "lucide-react";
+import { Shirt, Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-white">
             <div className="p-1.5 bg-white text-black rounded">
-              <Shield className="w-4 h-4" />
+              <Shirt className="w-4 h-4" />
             </div>
             <span className="font-teko text-2xl tracking-widest uppercase">web3.0</span>
           </div>

@@ -14,7 +14,8 @@ interface PortfolioDetailsPageProps {
 
 export async function generateMetadata({ params }: PortfolioDetailsPageProps) {
   const { slug } = await params;
-  const project = await container.getProjectBySlug.execute(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const project = await container.getProjectBySlug.execute(decodedSlug);
   if (!project) {
     return {
       title: "ไม่พบข้อมูลผลงาน | Web3.0 Premium Production",
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: PortfolioDetailsPageProps) {
 
 export default async function PublicPortfolioDetailsPage({ params }: PortfolioDetailsPageProps) {
   const { slug } = await params;
-  const project = await container.getProjectBySlug.execute(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const project = await container.getProjectBySlug.execute(decodedSlug);
 
   if (!project || project.status !== "PUBLISHED") {
     notFound();

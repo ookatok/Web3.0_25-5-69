@@ -1,5 +1,5 @@
 import React from "react";
-import { Shield, Sparkles, Award } from "lucide-react";
+import { Shirt, Sparkles, Award } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -52,7 +52,7 @@ export default function AboutPage() {
         <div className="bg-[#212224] text-white rounded-[2.5rem] p-8 border-[4px] border-[#2c2d30] shadow-2xl space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/5 border border-white/10 rounded-full">
-              <Shield className="w-4 h-4" />
+              <Shirt className="w-4 h-4" />
             </div>
             <h3 className="font-teko text-3xl font-bold uppercase tracking-wider pt-1.5">
               VISION
