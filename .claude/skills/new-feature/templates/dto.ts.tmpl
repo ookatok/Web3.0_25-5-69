@@ -1,0 +1,21 @@
+// src/application/dto/{{entity-kebab}}.dto.ts
+// zod schema = single source of truth ของ input/output — reuse ทั้ง form (react-hook-form) และ server action
+import { z } from "zod";
+
+export const create{{Entity}}Schema = z.object({
+  title: z.string().min(1, "กรอกชื่อ").max(255),
+  // เพิ่ม field ของ feature ที่นี่
+});
+export type Create{{Entity}}Input = z.infer<typeof create{{Entity}}Schema>;
+
+export const update{{Entity}}Schema = create{{Entity}}Schema.partial().extend({
+  id: z.string().min(1),
+});
+export type Update{{Entity}}Input = z.infer<typeof update{{Entity}}Schema>;
+
+export const list{{Entity}}QuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  status: z.enum(["DRAFT", "PUBLISHED"]).optional(),
+});
+export type List{{Entity}}Query = z.infer<typeof list{{Entity}}QuerySchema>;

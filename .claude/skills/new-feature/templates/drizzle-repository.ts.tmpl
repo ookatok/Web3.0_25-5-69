@@ -1,0 +1,53 @@
+// src/infrastructure/repositories/drizzle-{{entity-kebab}}-repository.ts
+// implement port 1:1 ด้วย Drizzle ของจริง (rule 09). เข้าถึง db ได้เฉพาะชั้นนี้
+import { and, count, eq } from "drizzle-orm";
+import type { db } from "@/infrastructure/db/client";
+import { {{entities}} } from "@/infrastructure/db/schema";
+import type {
+  {{Entity}}Repository,
+  List{{Entity}}Params,
+} from "@/application/ports/{{entity-kebab}}-repository";
+import type { {{Entity}} } from "@/domain/entities/{{entity-kebab}}";
+
+type DB = typeof db;
+
+export class Drizzle{{Entity}}Repository implements {{Entity}}Repository {
+  constructor(private readonly db: DB) {}
+
+  async save(item: {{Entity}}): Promise<void> {
+    await this.db.insert({{entities}}).values(item);
+  }
+
+  async update(item: {{Entity}}): Promise<void> {
+    await this.db.update({{entities}}).set(item).where(eq({{entities}}.id, item.id));
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.delete({{entities}}).where(eq({{entities}}.id, id));
+  }
+
+  async findById(id: string): Promise<{{Entity}} | null> {
+    const [row] = await this.db.select().from({{entities}}).where(eq({{entities}}.id, id)).limit(1);
+    return row ?? null;
+  }
+
+  async findBySlug(slug: string): Promise<{{Entity}} | null> {
+    const [row] = await this.db.select().from({{entities}}).where(eq({{entities}}.slug, slug)).limit(1);
+    return row ?? null;
+  }
+
+  async list(params: List{{Entity}}Params): Promise<{ items: {{Entity}}[]; total: number }> {
+    const where = params.status ? eq({{entities}}.status, params.status) : undefined;
+    const items = await this.db
+      .select()
+      .from({{entities}})
+      .where(where)
+      .limit(params.pageSize)
+      .offset((params.page - 1) * params.pageSize);
+    const [{ value: total }] = await this.db
+      .select({ value: count() })
+      .from({{entities}})
+      .where(where);
+    return { items, total };
+  }
+}

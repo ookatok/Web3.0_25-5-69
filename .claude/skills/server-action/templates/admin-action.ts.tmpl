@@ -1,0 +1,40 @@
+// src/presentation/actions/{{feature}}.actions.ts
+// Admin mutation — บาง 4 ขั้น: requireAdmin → zod.parse → use case → revalidatePath
+"use server";
+import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/infrastructure/auth/require-admin";
+import { container } from "@/infrastructure/di/container";
+import {
+  create{{Entity}}Schema,
+  update{{Entity}}Schema,
+} from "@/application/dto/{{entity-kebab}}.dto";
+
+export async function create{{Entity}}Action(input: unknown) {
+  await requireAdmin();
+  const parsed = create{{Entity}}Schema.safeParse(input);
+  if (!parsed.success) return { error: "ข้อมูลไม่ถูกต้อง" };
+
+  const item = await container.create{{Entity}}.execute(parsed.data);
+  revalidatePath("/{{entities}}");
+  revalidatePath("/admin/{{entities}}");
+  return { data: item };
+}
+
+export async function update{{Entity}}Action(input: unknown) {
+  await requireAdmin();
+  const parsed = update{{Entity}}Schema.safeParse(input);
+  if (!parsed.success) return { error: "ข้อมูลไม่ถูกต้อง" };
+
+  const item = await container.update{{Entity}}.execute(parsed.data);
+  revalidatePath("/{{entities}}");
+  revalidatePath("/admin/{{entities}}");
+  return { data: item };
+}
+
+export async function delete{{Entity}}Action(id: string) {
+  await requireAdmin();
+  await container.delete{{Entity}}.execute(id);
+  revalidatePath("/{{entities}}");
+  revalidatePath("/admin/{{entities}}");
+  return { ok: true };
+}

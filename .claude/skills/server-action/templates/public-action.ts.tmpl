@@ -1,0 +1,21 @@
+// src/presentation/actions/contact.actions.ts
+// Public action (ข้อยกเว้น): ไม่เรียก requireAdmin แต่ต้อง zod validate + rate limit + ไม่ log PII เต็ม (rule 01)
+"use server";
+import { revalidatePath } from "next/cache";
+import { container } from "@/infrastructure/di/container";
+import { createContactSchema } from "@/application/dto/contact.dto";
+
+export async function createContactAction(input: unknown) {
+  // 1) validate — public input เชื่อไม่ได้เลย
+  const parsed = createContactSchema.safeParse(input);
+  if (!parsed.success) return { error: "กรุณากรอกข้อมูลให้ครบ" };
+
+  // 2) rate limit กัน spam (ดึง identifier เช่น ip จาก headers ใน use case/service)
+  //    ถ้าเกิน limit → return { error: "ส่งบ่อยเกินไป กรุณาลองใหม่ภายหลัง" }
+
+  // 3) เรียก use case (ห้าม log email/phone เต็ม — ใช้ id หรือ mask)
+  await container.createContact.execute(parsed.data);
+
+  revalidatePath("/admin/contacts");
+  return { ok: true };
+}

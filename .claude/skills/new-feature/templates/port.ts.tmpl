@@ -1,0 +1,18 @@
+// src/application/ports/{{entity-kebab}}-repository.ts
+// interface ที่ infrastructure ต้อง implement — application ขึ้นต่อ "สัญญา" นี้ ไม่ใช่ Drizzle (rule 09)
+import type { {{Entity}}, {{Entity}}Status } from "@/domain/entities/{{entity-kebab}}";
+
+export interface List{{Entity}}Params {
+  page: number;
+  pageSize: number;
+  status?: {{Entity}}Status;
+}
+
+export interface {{Entity}}Repository {
+  save(item: {{Entity}}): Promise<void>;
+  update(item: {{Entity}}): Promise<void>;
+  delete(id: string): Promise<void>;
+  findById(id: string): Promise<{{Entity}} | null>;
+  findBySlug(slug: string): Promise<{{Entity}} | null>;
+  list(params: List{{Entity}}Params): Promise<{ items: {{Entity}}[]; total: number }>;
+}

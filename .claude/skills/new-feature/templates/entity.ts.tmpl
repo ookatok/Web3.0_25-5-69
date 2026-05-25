@@ -1,0 +1,18 @@
+// src/domain/entities/{{entity-kebab}}.ts
+// ชั้น domain = pure TS — ห้าม import React/Next/Drizzle/NextAuth/zod runtime (rule 09)
+
+export type {{Entity}}Status = "DRAFT" | "PUBLISHED";
+
+export interface {{Entity}} {
+  id: string;
+  title: string;
+  slug: string;
+  status: {{Entity}}Status;
+  createdAt: Date;
+  // เพิ่ม field ตาม data model ของ feature (ดู roadmap.md > Data Model)
+}
+
+// กฎธุรกิจเป็นฟังก์ชันบริสุทธิ์ (ไม่มี side effect)
+export function is{{Entity}}Published(item: {{Entity}}): boolean {
+  return item.status === "PUBLISHED";
+}

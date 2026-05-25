@@ -1,0 +1,15 @@
+// เพิ่มใน src/infrastructure/di/container.ts (composition root — ที่เดียวที่ผูก port → impl)
+import { db } from "@/infrastructure/db/client";
+import { Drizzle{{Entity}}Repository } from "@/infrastructure/repositories/drizzle-{{entity-kebab}}-repository";
+import { Create{{Entity}} } from "@/application/use-cases/{{feature}}/create-{{entity-kebab}}";
+import { Update{{Entity}} } from "@/application/use-cases/{{feature}}/update-{{entity-kebab}}";
+import { Delete{{Entity}} } from "@/application/use-cases/{{feature}}/delete-{{entity-kebab}}";
+
+const {{entity}}Repo = new Drizzle{{Entity}}Repository(db);
+
+export const container = {
+  // ...use case เดิม
+  create{{Entity}}: new Create{{Entity}}({{entity}}Repo),
+  update{{Entity}}: new Update{{Entity}}({{entity}}Repo),
+  delete{{Entity}}: new Delete{{Entity}}({{entity}}Repo),
+};

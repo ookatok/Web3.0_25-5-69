@@ -1,0 +1,22 @@
+// src/application/use-cases/{{feature}}/create-{{entity-kebab}}.ts
+// 1 action = 1 use case. รับ port ผ่าน constructor (DI). gen id + slug + ตั้ง status ที่นี่ (rule 09)
+import type { {{Entity}}Repository } from "@/application/ports/{{entity-kebab}}-repository";
+import type { Create{{Entity}}Input } from "@/application/dto/{{entity-kebab}}.dto";
+import type { {{Entity}} } from "@/domain/entities/{{entity-kebab}}";
+import { slugify } from "@/domain/value-objects/slug";
+
+export class Create{{Entity}} {
+  constructor(private readonly repo: {{Entity}}Repository) {}
+
+  async execute(input: Create{{Entity}}Input): Promise<{{Entity}}> {
+    const item: {{Entity}} = {
+      id: crypto.randomUUID(),
+      slug: slugify(input.title),
+      status: "DRAFT",
+      createdAt: new Date(),
+      ...input,
+    };
+    await this.repo.save(item);
+    return item;
+  }
+}
