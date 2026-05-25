@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1779681966559,
+      "tag": "0000_normal_miss_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1779687370106,
+      "tag": "0001_rich_zeigeist",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1779688445891,
+      "tag": "0002_keen_synch",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1779689921489,
+      "tag": "0003_normal_gressill",
+      "breakpoints": true
+    }
+  ]
+}

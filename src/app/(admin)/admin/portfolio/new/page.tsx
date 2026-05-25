@@ -1,0 +1,18 @@
+import React from "react";
+import ProjectForm from "@/presentation/components/portfolio/ProjectForm";
+import { createProjectAction } from "@/presentation/actions/portfolio.actions";
+
+export default function AdminPortfolioNewPage() {
+  return (
+    <div className="space-y-6 font-sans">
+      <div>
+        <h1 className="text-xl font-bold text-white">เพิ่มผลงานใหม่</h1>
+        <p className="text-xs text-slate-400 font-light mt-1">
+          สร้างข้อมูลตัวอย่างผลงานและภาพสินค้าเพื่อโชว์ในหน้าพอร์ตโฟลิโอของคุณ
+        </p>
+      </div>
+      
+      <ProjectForm onSubmitAction={createProjectAction} />
+    </div>
+  );
+}

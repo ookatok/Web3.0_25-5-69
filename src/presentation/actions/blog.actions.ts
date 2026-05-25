@@ -1,0 +1,91 @@
+"use server";
+
+import { requireAdmin } from "@/infrastructure/auth/require-admin";
+import { createPostSchema, updatePostSchema } from "@/application/dto/post.dto";
+import { container } from "@/infrastructure/di/container";
+import { revalidatePath } from "next/cache";
+import sanitizeHtml from "sanitize-html";
+
+const sanitizeOptions = {
+  allowedTags: [
+    "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "p", "a", "ul", "ol",
+    "nl", "li", "ins", "del", "strong", "em", "u", "code", "pre", "br", "hr",
+    "img", "table", "thead", "tbody", "tr", "th", "td"
+  ],
+  allowedAttributes: {
+    a: ["href", "name", "target", "rel"],
+    img: ["src", "alt", "title", "width", "height"],
+    td: ["colspan", "rowspan"],
+    th: ["colspan", "rowspan"]
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel", "data"]
+};
+
+function sanitizeContent(htmlContent: string): string {
+  return sanitizeHtml(htmlContent, sanitizeOptions);
+}
+
+export async function createPostAction(input: unknown) {
+  // 1. Auth check
+  await requireAdmin();
+
+  // 2. Input validation
+  const data = createPostSchema.parse(input);
+
+  // 3. XSS Sanitization
+  data.content = sanitizeContent(data.content);
+
+  // 4. Execute use case
+  const post = await container.createPost.execute(data);
+
+  // 5. Revalidate cache
+  revalidatePath("/blog");
+  revalidatePath("/admin/blog");
+
+  return { success: true, data: post.toJSON() };
+}
+
+export async function updatePostAction(input: unknown) {
+  // 1. Auth check
+  await requireAdmin();
+
+  // 2. Input validation
+  const data = updatePostSchema.parse(input);
+
+  // 3. XSS Sanitization
+  if (data.content !== undefined) {
+    data.content = sanitizeContent(data.content);
+  }
+
+  // 4. Execute use case
+  const post = await container.updatePost.execute(data);
+
+  // 5. Revalidate cache
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${post.slug}`);
+  revalidatePath("/admin/blog");
+
+  return { success: true, data: post.toJSON() };
+}
+
+export async function deletePostAction(id: string) {
+  // 1. Auth check
+  await requireAdmin();
+
+  // 2. Execute use case
+  const post = await container.postRepository.findById(id);
+  if (post) {
+    await container.deletePost.execute(id);
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${post.slug}`);
+    revalidatePath("/admin/blog");
+  }
+
+  return { success: true };
+}
+
+export async function deletePostFormAction(formData: FormData) {
+  const id = formData.get("id") as string;
+  if (!id) return;
+  await deletePostAction(id);
+}

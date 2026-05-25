@@ -1,0 +1,33 @@
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { authConfig } from "./auth.config";
+import { container } from "@/infrastructure/di/container";
+import { loginSchema } from "@/application/dto/auth.dto";
+
+export const { auth, signIn, signOut, handlers } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
+      name: "credentials",
+      async authorize(credentials) {
+        const parsed = loginSchema.safeParse(credentials);
+        if (!parsed.success) {
+          return null;
+        }
+
+        const userEntity = await container.verifyCredentials.execute(parsed.data);
+        if (!userEntity) {
+          return null;
+        }
+
+        // Return object conforming to NextAuth User interface
+        return {
+          id: userEntity.id,
+          email: userEntity.email,
+          name: userEntity.name,
+          role: userEntity.role,
+        };
+      },
+    }),
+  ],
+});
