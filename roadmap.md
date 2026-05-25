@@ -222,7 +222,7 @@ export const contacts = mysqlTable("contacts", {
 - [ ] `presentation/actions/contact.actions.ts` — ⚠ **action นี้ public (ไม่เรียก `requireAdmin`)** แต่ **ต้อง** zod validate + rate limit + ไม่ log PII เต็ม ([rule 01](.claude/rules/01-security.md))
 - [ ] ต่อฟอร์มหน้า `/contact` เข้ากับ action; (option) ส่งอีเมลผ่าน `infrastructure/services/mail-service.ts`
 - [ ] `app/(admin)/admin/contacts/page.tsx` — ตารางข้อความ; `app/(admin)/admin/page.tsx` — dashboard นับจำนวน post/project/contact
-- [ ] SEO: `app/sitemap.ts`, `app/robots.ts`, JSON-LD ทุกหน้า content, OG image ([rule 05](.claude/rules/05-load-speed.md))
+- [ ] SEO (core): `app/sitemap.ts`, `app/robots.ts`, JSON-LD ทุกหน้า content, **Dynamic OG image ต่อบทความด้วย `next/og`**, **RSS feed `app/feed.xml`** ของ blog ([rule 05](.claude/rules/05-load-speed.md))
 - [ ] PDPA: cookie consent banner + ตรวจหน้า `privacy-policy` ให้ครบ
 - [ ] รอบ performance/a11y: ตรวจ `"use client"` ไม่ยกเกิน, `revalidatePath/Tag` หลัง mutation ครบ, virtualization ตารางยาว ([rule 04](.claude/rules/04-performance.md))
 - [ ] Deploy Vercel: ตั้ง env (`DATABASE_URL`, `AUTH_SECRET`), ตรวจ CSP/headers ใน `next.config.ts`, รัน migrate บน DB production (**user รันเอง**)
@@ -273,9 +273,9 @@ export const contacts = mysqlTable("contacts", {
 | **4** | เฟส 4 (BE + หลังบ้าน) | Blog domain/dto/port/use-cases + schema `posts` + repo + Server Actions + Tiptap + admin CRUD | สร้าง/แก้/ลบ/publish บทความใน admin ได้ |
 | **5** | เฟส 4 (public) + เฟส 5 (BE) | หน้า `/blog` + `[slug]` (sanitize, JSON-LD) + Portfolio domain/use-cases + `upload-service` + schema `projects` | อ่านบทความได้, ใส่ `<script>` แล้วไม่รัน (กัน XSS) |
 | **6** | เฟส 5 (หลังบ้าน+public) + เฟส 6 (เริ่ม) | Portfolio CRUD หลายรูป + `/portfolio` + `[slug]` gallery + schema `contacts` + contact action + dashboard | อัปโหลดหลายรูปได้, ปฏิเสธไฟล์ปลอม MIME ได้ |
-| **7** | เฟส 6 (จบ) + buffer | SEO `sitemap.ts`/`robots.ts`/JSON-LD + PDPA + รอบ perf/a11y + deploy Vercel + ทดสอบ golden path | build/lint ผ่าน, ทดสอบทุกระบบบน production, (Bonus ถ้าเหลือเวลา) |
+| **7** | เฟส 6 (จบ) + buffer | SEO `sitemap.ts`/`robots.ts`/JSON-LD + **OG image (`next/og`) + RSS `feed.xml`** + PDPA + รอบ perf/a11y + deploy Vercel + ทดสอบ golden path | build/lint ผ่าน, ทดสอบทุกระบบบน production, (Bonus ถ้าเหลือเวลา) |
 
 ### Bonus (ทำเฉพาะถ้า core เสร็จก่อนเวลา — รายละเอียดใน [PLAN.md §8](PLAN.md))
-- **วันที่ 7 ถ้าเหลือเวลา (เร็ว ~0.5 วัน):** Dark mode · แจ้งเตือน contact + กันสแปม · Dynamic OG image + RSS · Scheduled publish
+- **วันที่ 7 ถ้าเหลือเวลา (เร็ว ~0.5 วัน):** Dark mode · แจ้งเตือน contact + กันสแปม · Scheduled publish
 - **หลัง launch / เฟส 7+ (ใหญ่กว่า):** ค้นหา + หน้า Tag/หมวด blog · Dashboard + กราฟ (shadcn charts) · i18n TH/EN
 - ทุก Bonus ยังต้องผ่านเช็กลิสต์ปิด slice + Verify gate เดิม ห้ามลัด

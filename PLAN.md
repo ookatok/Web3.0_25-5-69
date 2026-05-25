@@ -230,7 +230,7 @@ web3.0/
 
 ## 7. เรื่องที่ควรคิดเพิ่ม (Extras)
 
-- **SEO:** ใช้ `generateMetadata` ต่อหน้า, ทำ `sitemap.xml` + `robots.txt`, ใส่ Open Graph image — สำคัญมากสำหรับเว็บธุรกิจ (thanaplus เน้นเรื่องนี้มาก)
+- **SEO (ต้องทำ — core):** `generateMetadata` ทุกหน้า, `sitemap.ts` + `robots.ts`, JSON-LD, **Dynamic OG image ต่อบทความด้วย `next/og`**, และ **RSS feed `app/feed.xml`** ของ blog — สำคัญมากสำหรับเว็บธุรกิจ (ดู [rule 05](.claude/rules/05-load-speed.md))
 - **PDPA / Cookie consent:** มี banner ขอความยินยอม + หน้านโยบายความเป็นส่วนตัว
 - **ภาษา:** ถ้าต้องการ TH/EN ค่อยเพิ่ม i18n ภายหลัง (เฟส 5+)
 - **ประสิทธิภาพรูป:** ใช้ `next/image` เสมอเพื่อโหลดเร็ว
@@ -246,9 +246,10 @@ web3.0/
 2. **ค้นหา + หน้า Tag/หมวดของ Blog** — ช่องค้นหา (debounce) + route `/blog/tag/[tag]`, `/blog/category/[slug]`; เพิ่ม use case `searchPosts`/`listPostsByTag` (Drizzle `where`/`like`) ดีต่อ SEO + UX · ชั้น: application + app · ~0.5–1 วัน
 3. **แจ้งเตือนเมื่อมีลูกค้าติดต่อ + กันสแปม** — มี contact ใหม่ → ส่ง Email / Line Notify ผ่าน `infrastructure/services/`; กันสแปมด้วย honeypot + rate limit + reCAPTCHA (action ติดต่อเป็น **public** จึงต้อง zod + จำกัดอัตราตาม [rule 01](.claude/rules/01-security.md)) · ~0.5 วัน
 4. **Admin dashboard + กราฟ** — นับยอดวิวบทความ (`views`) + กราฟจำนวน post/project/contact ด้วย **shadcn charts** (lib เดียว ตาม [rule 06](.claude/rules/06-ui-library.md)) + top posts · ชั้น: application (aggregate ที่ DB) + presentation · ~0.5–1 วัน
-5. **SEO เชิงลึก: Dynamic OG image + RSS feed** — สร้าง OG image อัตโนมัติต่อบทความด้วย `next/og` + ทำ `app/feed.xml` (RSS) ของ blog ([rule 05](.claude/rules/05-load-speed.md)) · ~0.5 วัน
-6. **Scheduled publish / Draft preview** — ตั้ง `publishedAt` ล่วงหน้า (ขึ้นเองเมื่อถึงเวลาได้ผ่าน `revalidate`) + ลิงก์ preview ของ draft (token) ก่อน publish · ชั้น: application + app · ~0.5 วัน
-7. **i18n สองภาษา (TH/EN)** — `next-intl` แยกข้อความ + prefix `/en` ขยายกลุ่มลูกค้า (ทำท้ายสุดเพราะกระทบหลายหน้า) · ~1 วัน
+5. **Scheduled publish / Draft preview** — ตั้ง `publishedAt` ล่วงหน้า (ขึ้นเองเมื่อถึงเวลาได้ผ่าน `revalidate`) + ลิงก์ preview ของ draft (token) ก่อน publish · ชั้น: application + app · ~0.5 วัน
+6. **i18n สองภาษา (TH/EN)** — `next-intl` แยกข้อความ + prefix `/en` ขยายกลุ่มลูกค้า (ทำท้ายสุดเพราะกระทบหลายหน้า) · ~1 วัน
+
+> หมายเหตุ: **SEO เชิงลึก (Dynamic OG image ด้วย `next/og` + RSS feed `app/feed.xml`) ไม่ใช่ Bonus — เป็นงาน core อยู่ในเฟส 6** (ดู [roadmap.md](roadmap.md))
 
 ---
 
