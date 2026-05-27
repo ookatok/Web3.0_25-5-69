@@ -56,6 +56,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  // Fetch related posts in the same category (with recent fallbacks)
+  let relatedPosts: any[] = [];
+  try {
+    const { posts: fetchedPosts } = await container.listPosts.execute({
+      limit: 4,
+      status: "PUBLISHED",
+      category: post.category || undefined,
+    });
+    relatedPosts = fetchedPosts
+      .filter((p) => p.id !== post.id)
+      .slice(0, 3);
+    
+    if (relatedPosts.length < 3) {
+      const { posts: recentPosts } = await container.listPosts.execute({
+        limit: 5,
+        status: "PUBLISHED",
+      });
+      const extraPosts = recentPosts
+        .filter((p) => p.id !== post.id && !relatedPosts.some((r) => r.id === p.id))
+        .slice(0, 3 - relatedPosts.length);
+      relatedPosts = [...relatedPosts, ...extraPosts];
+    }
+  } catch (err) {
+    console.error("Failed to fetch related posts:", err);
+  }
+
   // Generate Article Schema JSON-LD
   const jsonLd = {
     "@context": "https://schema.org",
@@ -164,6 +190,60 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <p className="text-xs text-theme-inverted-text/80 max-w-sm mx-auto font-light leading-relaxed">
           {t.blogMoreDesc}
         </p>
+
+        {relatedPosts.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left my-8">
+            {relatedPosts.map((rPost) => (
+              <Link
+                key={rPost.id}
+                href={`/blog/${rPost.slug}`}
+                className="group flex flex-col bg-theme-bg text-theme-card-text border-2 border-transparent hover:border-theme-inverted-text rounded-[2rem] overflow-hidden shadow-lg transition-all duration-300"
+              >
+                {/* Cover Image */}
+                <div className="relative h-40 m-2.5 bg-theme-card-bg rounded-[1.3rem] overflow-hidden border border-white/5 shrink-0">
+                  {rPost.coverImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={rPost.coverImage}
+                      alt={rPost.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950/20 to-purple-950/20">
+                      <BookOpen className="w-6 h-6 text-indigo-500/30" />
+                    </div>
+                  )}
+                  {rPost.category && (
+                    <span className="absolute top-2.5 left-2.5 bg-black/75 backdrop-blur-md text-[7px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-white/10 text-white">
+                      {rPost.category}
+                    </span>
+                  )}
+                </div>
+
+                <div className="p-4 space-y-2 flex-grow flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <span className="text-[7px] tracking-widest uppercase font-mono text-theme-card-subtext font-bold">
+                      {rPost.publishedAt
+                        ? new Date(rPost.publishedAt).toLocaleDateString(lang === "th" ? "th-TH" : "en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })
+                        : "NOT SPECIFIED"}
+                    </span>
+                    <h4 className="font-mono text-[11px] font-bold text-theme-card-text group-hover:text-theme-card-subtext transition-colors line-clamp-2 leading-snug uppercase">
+                      {rPost.title}
+                    </h4>
+                  </div>
+                  <span className="inline-flex items-center gap-1 text-[8px] font-mono tracking-widest text-indigo-500 font-bold uppercase pt-2">
+                    {lang === "th" ? "อ่านต่อ" : "READ MORE"} →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
         <div className="pt-2 font-mono">
           <Link href="/blog">
             <Button className="py-5 px-8 rounded-full bg-theme-bg text-theme-card-text hover:opacity-90 tracking-widest text-[9px] font-bold uppercase cursor-pointer">

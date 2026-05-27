@@ -7,14 +7,15 @@
  */
 
 
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
 import { Label } from "@/presentation/components/ui/label";
-import { Loader2, ArrowLeft, Save } from "lucide-react";
+import { Loader2, ArrowLeft, Save, Upload, X } from "lucide-react";
 import Link from "next/link";
+import { uploadBlogImageAction } from "@/presentation/actions/blog.actions";
 
 // Dynamic import for TiptapEditor to avoid SSR problems
 const TiptapEditor = dynamic(() => import("./TiptapEditor"), { ssr: false });
@@ -55,6 +56,44 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
   
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadError(null);
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const result = await uploadBlogImageAction(formData);
+      if (result.success && result.url) {
+        setCoverImage(result.url);
+      } else {
+        setUploadError(result.error || "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ");
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์";
+      setUploadError(message);
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
+
+  const handleRemoveCover = () => {
+    setCoverImage("");
+    setUploadError(null);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -197,19 +236,91 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
           </div>
 
           {/* Cover Image */}
-          <div className="space-y-2">
-            <Label htmlFor="coverImage" className="text-xs font-semibold text-theme-card-text">
-              ลิงก์รูปหน้าปกบทความ
-            </Label>
-            <Input
-              id="coverImage"
-              type="text"
-              placeholder="https://example.com/image.jpg"
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              disabled={isPending}
-              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg text-xs"
-            />
+          <div className="space-y-3 border-t border-theme-card-border pt-4">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-semibold text-theme-card-text">
+                รูปหน้าปกบทความ
+              </Label>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowUrlInput(!showUrlInput);
+                  setUploadError(null);
+                }}
+                className="text-[10px] text-indigo-400 hover:text-indigo-300 font-mono hover:underline cursor-pointer"
+              >
+                {showUrlInput ? "สลับไปอัปโหลดไฟล์" : "ใส่เป็นลิงก์รูปภาพแทน"}
+              </button>
+            </div>
+
+            {showUrlInput ? (
+              <div className="space-y-2">
+                <Input
+                  id="coverImage"
+                  type="text"
+                  placeholder="https://example.com/image.jpg"
+                  value={coverImage}
+                  onChange={(e) => setCoverImage(e.target.value)}
+                  disabled={isPending || isUploading}
+                  className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg text-xs"
+                />
+                <p className="text-[9px] text-theme-card-subtext font-mono">กรอกลิงก์รูปภาพสาธารณะจากอินเทอร์เน็ต</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {coverImage ? (
+                  <div className="relative aspect-video w-full bg-theme-bg rounded-lg border border-theme-card-border overflow-hidden group flex flex-col justify-end">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={coverImage}
+                      alt="Cover preview"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={handleRemoveCover}
+                        className="py-1.5 px-3 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-md"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        ลบรูปหน้าปก
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => !isPending && !isUploading && fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-theme-card-border hover:border-theme-card-text/30 rounded-lg p-6 text-center cursor-pointer transition-colors flex flex-col items-center justify-center space-y-2 bg-theme-bg/10 hover:bg-theme-bg/20"
+                  >
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      accept="image/jpeg,image/png,image/webp"
+                      className="hidden"
+                      disabled={isPending || isUploading}
+                    />
+
+                    {isUploading ? (
+                      <Loader2 className="w-6 h-6 text-theme-card-text animate-spin" />
+                    ) : (
+                      <Upload className="w-6 h-6 text-theme-card-subtext" />
+                    )}
+
+                    <div className="space-y-0.5">
+                      <p className="text-theme-card-text font-medium text-[11px]">คลิกเพื่อเลือกไฟล์รูปปก</p>
+                      <p className="text-theme-card-subtext text-[9px] font-mono">JPG, PNG, WEBP ไม่เกิน 5MB</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {uploadError && (
+              <div className="p-2 text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-md">
+                {uploadError}
+              </div>
+            )}
           </div>
         </div>
       </div>

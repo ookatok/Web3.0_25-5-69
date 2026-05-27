@@ -57,7 +57,7 @@ export default function HeroSlideshow({ projects, lang }: HeroSlideshowProps) {
 
   if (totalSlides === 0) {
     return (
-      <div className="w-full md:w-80 h-72 md:h-96 bg-theme-bg border-2 border-theme-card-border rounded-[2rem] flex flex-col justify-between p-6 relative overflow-hidden group items-center justify-center">
+      <div className="w-full max-w-md lg:w-[480px] lg:min-w-[480px] h-[380px] sm:h-[440px] lg:h-[576px] bg-theme-bg border-2 border-theme-card-border rounded-[2rem] flex flex-col justify-between p-6 relative overflow-hidden group items-center justify-center">
         <Briefcase className="w-12 h-12 text-theme-card-subtext animate-pulse mb-3" />
         <span className="font-mono text-[10px] tracking-widest text-theme-card-subtext uppercase">
           {lang === "th" ? "ไม่มีตัวอย่างผลงาน" : "No Portfolio Showcase"}
@@ -86,7 +86,7 @@ export default function HeroSlideshow({ projects, lang }: HeroSlideshowProps) {
 
   return (
     <div
-      className="w-full max-w-md lg:w-80 lg:min-w-80 lg:shrink-0 h-72 lg:h-96 border-2 border-theme-card-border rounded-[2rem] bg-theme-bg overflow-hidden relative group select-none shadow-xl"
+      className="w-full max-w-md lg:w-[480px] lg:min-w-[480px] lg:shrink-0 h-[380px] sm:h-[440px] lg:h-[576px] border-2 border-theme-card-border rounded-[2rem] bg-theme-bg overflow-hidden relative group select-none shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -121,8 +121,10 @@ export default function HeroSlideshow({ projects, lang }: HeroSlideshowProps) {
                   </span>
                 </div>
               )}
+              {/* Technical Dot Grid Blueprint Overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none z-10 group-hover:opacity-40 transition-opacity duration-300"></div>
               {/* Soft Dark Bottom Vignette Overlay to ensure text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
             </div>
 
             {/* Top Bar Details */}

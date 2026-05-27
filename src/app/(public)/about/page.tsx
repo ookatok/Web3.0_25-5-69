@@ -18,7 +18,15 @@ export default async function AboutPage() {
     <div className="min-h-screen bg-theme-bg text-theme-text transition-colors duration-300 py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
       {/* Intro Header Card */}
       <div className="w-full max-w-5xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-14 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center">
-        <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[350px] h-[350px] border-[12px] border-white/10 rounded-full blur-[2px] shadow-[0_0_80px_rgba(255,255,255,0.06)] pointer-events-none hidden md:block"></div>
+        {/* Banner Background Image Overlay */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/about_banner_bg.png"
+            alt="About Banner Background"
+            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+          />
+        </div>
         
         <div className="flex-1 space-y-4 relative z-10">
           <span className="font-mono text-[10px] tracking-widest text-theme-card-subtext uppercase font-bold">{t.aboutSub}</span>

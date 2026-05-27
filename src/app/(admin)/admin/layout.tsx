@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
   // 4. Retrieve language configuration setting from cookie store (default: "th")
   const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const lang = (cookieStore.get("admin_lang")?.value || "th") as "th" | "en";
   const theme = (cookieStore.get("theme")?.value || "dark") as "dark" | "light";
 
   // 5. Wrap console pages in the responsive layout component with localized switcher

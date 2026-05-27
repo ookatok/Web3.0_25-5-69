@@ -22,7 +22,7 @@ export default async function AdminBlogListPage() {
 
   // 3. Resolve active bilingual setting from client cookies
   const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const lang = (cookieStore.get("admin_lang")?.value || "th") as "th" | "en";
   const t = translations[lang];
 
   return (

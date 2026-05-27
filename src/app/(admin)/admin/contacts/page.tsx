@@ -17,7 +17,7 @@ export default async function AdminContactsPage() {
   const contacts = await container.listContacts.execute();
 
   const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const lang = (cookieStore.get("admin_lang")?.value || "th") as "th" | "en";
   const t = translations[lang];
 
   return (

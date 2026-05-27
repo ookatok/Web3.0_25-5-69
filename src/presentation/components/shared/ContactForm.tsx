@@ -7,11 +7,11 @@
  */
 
 
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useEffect } from "react";
 import { Mail, Phone, MessageSquare, Send, CheckCircle2 } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
 import { Input } from "@/presentation/components/ui/input";
-import { createContactAction } from "@/presentation/actions/contact.actions";
+import { createContactAction, getFormTokenAction } from "@/presentation/actions/contact.actions";
 import { translations } from "@/shared/i18n/translations";
 
 interface ContactFormProps {
@@ -28,6 +28,22 @@ export default function ContactForm({ lang }: ContactFormProps) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // Anti-Spam Security States
+  const [formToken, setFormToken] = useState("");
+  const [phoneSecondary, setPhoneSecondary] = useState("");
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getFormTokenAction();
+        setFormToken(token);
+      } catch (err) {
+        console.error("Failed to fetch form security token:", err);
+      }
+    };
+    fetchToken();
+  }, [success]);
 
   // Price Estimator State
   const [activeTab, setActiveTab] = useState<"general" | "estimate">("general");
@@ -157,6 +173,8 @@ ${message || "ไม่มีรายละเอียดเพิ่มเต
         phone: phone || null,
         email: email || null,
         message: finalMessage,
+        phone_secondary: phoneSecondary,
+        formToken,
       });
 
       if (!result.success) {
@@ -167,6 +185,7 @@ ${message || "ไม่มีรายละเอียดเพิ่มเต
         setPhone("");
         setEmail("");
         setMessage("");
+        setPhoneSecondary("");
       }
     });
   };
@@ -235,6 +254,19 @@ ${message || "ไม่มีรายละเอียดเพิ่มเต
             <div className="space-y-4">
               {/* Standard Inputs */}
               <div className="space-y-3">
+                {/* Honeypot field (hidden from humans, filled by bots) */}
+                <input
+                  id="phone_secondary"
+                  type="text"
+                  name="phone_secondary"
+                  value={phoneSecondary}
+                  onChange={(e) => setPhoneSecondary(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="absolute opacity-0 -z-10 w-0 h-0 pointer-events-none"
+                  aria-hidden="true"
+                />
+
                 <Input
                   id="name"
                   type="text"

@@ -25,3 +25,19 @@ export async function toggleLanguageAction() {
   
   revalidatePath("/");
 }
+
+export async function toggleAdminLanguageAction() {
+  const cookieStore = await cookies();
+  const currentLang = cookieStore.get("admin_lang")?.value || "th";
+  const nextLang = currentLang === "th" ? "en" : "th";
+  
+  // Set admin_lang cookie for 365 days
+  cookieStore.set("admin_lang", nextLang, { 
+    path: "/", 
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
+  });
+  
+  revalidatePath("/admin", "layout");
+}

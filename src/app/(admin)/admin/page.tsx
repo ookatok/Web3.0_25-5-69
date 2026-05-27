@@ -22,7 +22,7 @@ export default async function AdminDashboardPage() {
 
   // 3. Resolve localization setting from browser cookie
   const cookieStore = await cookies();
-  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const lang = (cookieStore.get("admin_lang")?.value || "th") as "th" | "en";
   const t = translations[lang];
 
   // 4. Retrieve database counts from Dependency Injection Use Cases

@@ -66,6 +66,7 @@ export default async function HomePage() {
         : "Custom circular/V-neck t-shirt manufacturing, vibrant printing, durable washability, and modern styling.",
       slug: "t-shirt",
       tag: lang === "th" ? "ขายดี" : "Best Seller",
+      image: "/tshirt_service.png",
     },
     {
       title: lang === "th" ? "เสื้อโปโลพนักงาน" : "Corporate Polo",
@@ -74,6 +75,7 @@ export default async function HomePage() {
         : "Classic woven-collar polo shirts with custom embroidery, sleek tailoring, suitable for corporate workforces.",
       slug: "polo",
       tag: lang === "th" ? "แนะนำ" : "Recommended",
+      image: "/polo_service.png",
     },
     {
       title: lang === "th" ? "หมวกแก๊ปพรีเมียม" : "Premium Cap & Gifts",
@@ -82,11 +84,24 @@ export default async function HomePage() {
         : "3D embossed computer embroidered caps, bucket hats, giveaways, durable fabrics, and adjustable closures.",
       slug: "cap",
       tag: lang === "th" ? "ยอดนิยม" : "Popular",
+      image: "/cap_service.png",
     },
   ];
 
   // Mock Portfolio (localized)
-  const recentPortfolio = [
+  let recentPortfolio: any[] = [];
+  try {
+    const { projects } = await container.listProjects.execute({
+      status: "PUBLISHED",
+      limit: 3,
+    });
+    recentPortfolio = projects.map(p => p.toJSON());
+  } catch (err) {
+    console.error("Failed to fetch recent projects:", err);
+  }
+
+  if (recentPortfolio.length === 0) {
+    recentPortfolio = [
     {
       title: lang === "th" ? "เสื้อยืดกิจกรรม ค่ายวิศวกรรมการบิน" : "Aviation Engineering Camp Activity T-Shirt",
       category: lang === "th" ? "เสื้อยืดพิมพ์ลาย" : "Printed T-Shirt",
@@ -105,7 +120,8 @@ export default async function HomePage() {
       imageText: "Brew&Co Premium Cap",
       slug: "brew-cap",
     },
-  ];
+    ];
+  }
 
   // Mock Blogs (localized)
   const latestBlogs = [
@@ -134,25 +150,67 @@ export default async function HomePage() {
   return (
     <div className="relative overflow-hidden bg-theme-bg text-theme-text transition-colors duration-300 font-sans pb-24 px-4 sm:px-6 lg:px-8 space-y-12">
       <section className="relative pt-28 pb-12">
-        <div className="w-full max-w-7xl mx-auto bg-theme-card-bg text-theme-card-text rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-14 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+        <div className="w-full max-w-7xl mx-auto bg-theme-card-bg/95 backdrop-blur-md text-theme-card-text rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-14 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+          {/* Ambient Glow Blobs */}
+          <div className="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none"></div>
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-purple-500/10 blur-[120px] pointer-events-none"></div>
+          
+          {/* Fashion Background Image Overlay */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero_fashion_bg.png"
+              alt="Fashion Background Texture"
+              className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+            />
+          </div>
+
+          {/* Tech Grid Pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+
           {/* Neon Ring Background Element */}
           <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[450px] md:h-[450px] border-[12px] border-white/10 rounded-full blur-[2px] shadow-[0_0_80px_rgba(255,255,255,0.06)] pointer-events-none hidden md:block"></div>
 
           {/* Left Hero Details */}
           <div className="flex-1 space-y-6 relative z-10">
-            <div className="font-mono text-[10px] tracking-widest text-theme-card-subtext uppercase font-bold">
-              {t.heroSub}
+            {/* Tech Status Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400 animate-pulse"></span>
+              <span className="font-mono text-[9px] tracking-widest text-theme-card-subtext uppercase font-bold">
+                {t.heroSub}
+              </span>
             </div>
-            <h1 className="font-teko text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold uppercase tracking-wider leading-[1.25] sm:leading-[1.15] lg:leading-[1.1] text-theme-card-text">
+
+            <h1 className="font-teko text-7xl sm:text-8xl lg:text-9xl font-bold uppercase tracking-wider leading-[1.25] sm:leading-[1.15] lg:leading-[1.1] text-theme-card-text dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-b dark:from-white dark:via-white dark:to-slate-400">
               {t.heroTitleDiscover} <br />
-              <span className="text-theme-card-subtext">{t.heroTitleLatest}</span>
+              <span className="text-theme-card-subtext dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-slate-400 dark:via-slate-200 dark:to-slate-500">{t.heroTitleLatest}</span>
             </h1>
-            <p className="font-mono text-[10px] text-theme-card-subtext uppercase tracking-widest">
-              {lang === "th" ? "ผลิตยูนิฟอร์มพนักงานและเสื้อผ้าสตรีทแวร์พรีเมียม" : "Premium Streetwear & Corporate Uniforms"}
+
+            <p className="font-mono text-[9px] text-indigo-600 dark:text-indigo-400/80 uppercase tracking-widest font-bold mt-2">
+              // {lang === "th" ? "ผลิตยูนิฟอร์มพนักงานและเสื้อผ้าสตรีทแวร์พรีเมียม" : "Premium Streetwear & Corporate Uniforms"}
             </p>
             <p className="text-xs text-theme-card-subtext max-w-sm font-light leading-relaxed">
               {t.heroDesc}
             </p>
+
+            {/* Technical Stats list */}
+            <div className="flex flex-wrap items-center gap-6 pt-6 font-mono text-[9px] text-theme-card-subtext border-t border-slate-200 dark:border-white/5 max-w-md">
+              <div className="space-y-1">
+                <span className="block text-theme-card-text font-extrabold text-[10px]">EST. 2016</span>
+                <span className="block text-[7px] tracking-wider opacity-60">FOUNDATION</span>
+              </div>
+              <div className="w-[1px] h-6 bg-slate-300 dark:bg-white/10 hidden sm:block"></div>
+              <div className="space-y-1">
+                <span className="block text-theme-card-text font-extrabold text-[10px]">100% PREMIUM</span>
+                <span className="block text-[7px] tracking-wider opacity-60">QUALITY CHECKED</span>
+              </div>
+              <div className="w-[1px] h-6 bg-slate-300 dark:bg-white/10 hidden sm:block"></div>
+              <div className="space-y-1">
+                <span className="block text-theme-card-text font-extrabold text-[10px]">FREE 3D MOCKUP</span>
+                <span className="block text-[7px] tracking-wider opacity-60">DESIGN SERVICE</span>
+              </div>
+            </div>
+
             <div className="flex gap-3 pt-4 font-mono">
               <Link href="/contact">
                 <Button className="rounded-full bg-theme-button-primary-bg text-theme-button-primary-text hover:bg-theme-button-primary-bg/80 tracking-widest text-[9px] font-bold py-5 px-6 uppercase cursor-pointer">
@@ -196,9 +254,19 @@ export default async function HomePage() {
             {featuredServices.map((service) => (
               <div key={service.slug} className="flex flex-col space-y-4">
                 {/* Main Card */}
-                <div className="bg-theme-bg text-theme-card-text rounded-[2rem] p-6 border-2 border-transparent hover:border-theme-inverted-text transition-all flex flex-col justify-between min-h-[24rem] h-auto group">
+                <div className="bg-theme-bg text-theme-card-text rounded-[2rem] p-6 border-2 border-transparent hover:border-theme-inverted-text transition-all flex flex-col justify-between min-h-[30rem] h-auto group">
                   <div className="space-y-4">
-                    <span className="px-3 py-1 rounded-full text-[9px] font-mono tracking-widest bg-theme-card-bg border border-theme-card-border text-theme-card-subtext group-hover:text-theme-card-text group-hover:border-theme-card-text transition-all uppercase">
+                    {service.image && (
+                      <div className="relative h-44 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5 flex items-center justify-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+                    <span className="px-3 py-1 rounded-full text-[9px] font-mono tracking-widest bg-theme-card-bg border border-theme-card-border text-theme-card-subtext group-hover:text-theme-card-text group-hover:border-theme-card-text transition-all uppercase inline-flex">
                       {service.tag}
                     </span>
                     <h3 className="font-teko text-3xl font-semibold uppercase tracking-wider pt-2">
@@ -293,20 +361,33 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {recentPortfolio.map((project) => (
-              <div key={project.slug} className="group rounded-[2rem] overflow-hidden bg-theme-bg text-theme-card-text border-2 border-transparent hover:border-theme-inverted-text transition-all">
-                <div className="h-48 bg-theme-card-bg border-b border-theme-card-border flex items-center justify-center p-6 text-theme-card-subtext font-bold relative overflow-hidden">
+              <Link
+                key={project.id || project.slug}
+                href={`/portfolio/${project.slug}`}
+                className="group rounded-[2rem] overflow-hidden bg-theme-bg text-theme-card-text border-2 border-transparent hover:border-theme-inverted-text transition-all block"
+              >
+                <div className="h-64 bg-theme-card-bg border-b border-theme-card-border flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 to-indigo-500/5 group-hover:scale-105 transition-transform duration-500"></div>
-                  <span className="relative z-10 text-[9px] uppercase tracking-widest text-theme-card-text bg-theme-bg/85 border border-theme-card-border rounded-full">
-                    {project.imageText}
-                  </span>
+                  {project.coverImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={project.coverImage}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <span className="relative z-10 text-[9px] uppercase tracking-widest text-theme-card-text bg-theme-bg/85 border border-theme-card-border rounded-full px-3 py-1">
+                      {project.imageText || project.title}
+                    </span>
+                  )}
                 </div>
                 <div className="p-6 space-y-2">
                   <span className="text-[8px] tracking-widest uppercase font-mono text-theme-card-subtext">{project.category}</span>
-                  <h3 className="text-xs font-bold text-theme-card-text group-hover:text-theme-card-subtext transition-colors uppercase font-mono">
+                  <h3 className="text-xs font-bold text-theme-card-text group-hover:text-theme-card-subtext transition-colors uppercase font-mono line-clamp-2 leading-snug">
                     {project.title}
                   </h3>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

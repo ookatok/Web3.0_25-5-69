@@ -84,7 +84,15 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
     <div className="min-h-screen bg-theme-bg py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
       {/* Header Card */}
       <div className="w-full max-w-5xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-8 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
-        <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[300px] h-[300px] border-[12px] border-white/10 rounded-full blur-[2px] shadow-[0_0_80px_rgba(255,255,255,0.06)] pointer-events-none hidden md:block"></div>
+        {/* Banner Background Image Overlay */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/portfolio_banner_bg.png"
+            alt="Portfolio Production Background"
+            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+          />
+        </div>
         <div className="space-y-4 relative z-10">
           <span className="font-mono text-[10px] tracking-widest text-theme-card-subtext uppercase font-bold">{t.portSub}</span>
           <h1 className="font-teko text-5xl sm:text-7xl md:text-8xl font-bold uppercase tracking-wider leading-none">
@@ -162,7 +170,7 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
                 className="group flex flex-col bg-theme-bg text-theme-card-text border-2 border-transparent hover:border-theme-card-text rounded-[2rem] overflow-hidden shadow-lg transition-all duration-300"
               >
                 {/* Cover Image inside card with padding */}
-                <div className="relative h-56 m-3 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5">
+                <div className="relative h-72 m-3 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5">
                   {project.coverImage ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

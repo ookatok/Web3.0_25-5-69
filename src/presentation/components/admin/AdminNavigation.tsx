@@ -12,7 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, FileText, Briefcase, MessageSquare, LogOut, Shirt, Menu, X, Sun, Moon } from "lucide-react";
 import { logoutAction } from "@/presentation/actions/auth.actions";
-import { toggleLanguageAction } from "@/presentation/actions/lang.actions";
+import { toggleAdminLanguageAction } from "@/presentation/actions/lang.actions";
 import { toggleThemeAction } from "@/presentation/actions/theme.actions";
 import { translations } from "@/shared/i18n/translations";
 import { cn } from "@/shared/utils/cn";
@@ -40,7 +40,7 @@ export default function AdminNavigation({ adminName, adminEmail, lang, theme = "
   // 5. Function to trigger the language switch server action and refresh the path cache
   const handleToggleLang = () => {
     startTransition(async () => {
-      await toggleLanguageAction();
+      await toggleAdminLanguageAction();
     });
   };
 

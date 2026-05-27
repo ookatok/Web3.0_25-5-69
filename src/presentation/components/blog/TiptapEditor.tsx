@@ -46,18 +46,24 @@ const MenuButton = ({
 );
 
 export default function TiptapEditor({ value, onChange, disabled }: TiptapEditorProps) {
+  const [, setSelectionCount] = React.useState(0);
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: value,
     editorProps: {
       attributes: {
         class: cn(
-          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-theme-card-border bg-theme-input-bg p-4 text-xs font-light leading-relaxed text-theme-card-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 focus:border-theme-card-text transition-all font-sans prose dark:prose-invert max-w-none"
+          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-theme-card-border bg-theme-input-bg p-4 text-xs font-light leading-relaxed text-theme-card-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 focus:border-theme-card-text transition-all font-sans prose-custom max-w-none"
         ),
       },
     },
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
+    },
+    onTransaction: () => {
+      // Force React re-render to update the active state of toolbar buttons
+      setSelectionCount((c) => c + 1);
     },
   });
 
