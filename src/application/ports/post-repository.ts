@@ -1,3 +1,9 @@
+/**
+ * @file post-repository.ts
+ * @path src/application/ports/post-repository.ts
+ * @description อินเตอร์เฟสพอร์ต (Port Interface) สำหรับกระบวนการเข้าถึงฐานข้อมูลบทความบล็อก (Post)
+ */
+
 import { Post } from "@/domain/entities/post";
 
 export interface PostRepositoryOptions {

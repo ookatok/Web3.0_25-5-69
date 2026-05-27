@@ -1,3 +1,9 @@
+/**
+ * @file route.ts
+ * @path src/app/feed.xml/route.ts
+ * @description ระบบสร้างฟีดบทความข่าวสารอัตโนมัติ (Dynamic RSS Feed) ในรูปแบบ XML สำหรับ Search Engines
+ */
+
 import { NextResponse } from "next/server";
 import { container } from "@/infrastructure/di/container";
 

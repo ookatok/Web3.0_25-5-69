@@ -1,3 +1,9 @@
+/**
+ * @file auth.config.ts
+ * @path src/infrastructure/auth/auth.config.ts
+ * @description กำหนดตัวเลือกการทำงานของ NextAuth ที่ปลอดภัยในสภาพแวดล้อมแบบ Edge (Edge-compatible NextAuth Options) เช่น การเช็คสิทธิ์ล็อกอินใน Middleware
+ */
+
 import type { NextAuthConfig } from "next-auth";
 
 export const authConfig = {

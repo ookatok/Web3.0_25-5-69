@@ -1,3 +1,9 @@
+/**
+ * @file create-project.ts
+ * @path src/application/use-cases/portfolio/create-project.ts
+ * @description ยูสเคส (Use Case) สำหรับเพิ่มบันทึกผลงานโครงการใหม่เข้าสู่ระบบฐานข้อมูล
+ */
+
 import { ProjectRepository } from "@/application/ports/project-repository";
 import { Project } from "@/domain/entities/project";
 import { CreateProjectInput } from "@/application/dto/project.dto";

@@ -1,3 +1,9 @@
+/**
+ * @file post.ts
+ * @path src/domain/entities/post.ts
+ * @description เอนทิตีบทความ (Post Entity) ในระดับ Domain Layer กำหนดข้อมูลและคุณลักษณะหลักของบทความบล็อก
+ */
+
 export interface PostProps {
   id: string;
   title: string;

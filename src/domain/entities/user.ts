@@ -1,3 +1,9 @@
+/**
+ * @file user.ts
+ * @path src/domain/entities/user.ts
+ * @description เอนทิตีผู้ใช้ (User Entity) ในระดับ Domain Layer กำหนดคุณลักษณะหลักของบัญชีผู้ดูแลระบบ (Admin)
+ */
+
 export interface UserProps {
   id: string;
   email: string;

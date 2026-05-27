@@ -1,3 +1,9 @@
+/**
+ * @file button.tsx
+ * @path src/presentation/components/ui/button.tsx
+ * @description Shadcn UI Primitive - ปุ่มกดแบบโมโนโครมรองรับขนาดและลักษณะต่างๆ ของแอปพลิเคชัน
+ */
+
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 

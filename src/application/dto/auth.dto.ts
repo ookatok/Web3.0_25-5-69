@@ -1,3 +1,9 @@
+/**
+ * @file auth.dto.ts
+ * @path src/application/dto/auth.dto.ts
+ * @description Data Transfer Object (DTO) สำหรับขั้นตอนการล็อกอินเข้าสู่ระบบ พร้อมใช้ Zod Schema ในการตรวจสอบข้อมูลขาเข้า
+ */
+
 import { z } from "zod";
 
 export const loginSchema = z.object({

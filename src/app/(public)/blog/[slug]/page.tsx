@@ -1,10 +1,17 @@
+/**
+ * @file page.tsx
+ * @path src/app/(public)/blog/[slug]/page.tsx
+ * @description หน้าแสดงรายละเอียดบทความฉับเต็ม พร้อมรูปหน้าปก ระบบนับยอดอ่าน และโครงสร้างข้อมูล SEO JSON-LD
+ */
+
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Eye, BookOpen } from "lucide-react";
 import { container } from "@/infrastructure/di/container";
 import { Button } from "@/presentation/components/ui/button";
-
+import { cookies } from "next/headers";
+import { translations } from "@/shared/i18n/translations";
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -41,6 +48,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const decodedSlug = decodeURIComponent(slug);
   const post = await container.getPostBySlug.execute(decodedSlug, { incrementViews: true });
 
+  const cookieStore = await cookies();
+  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const t = translations[lang];
+
   if (!post || post.status !== "PUBLISHED") {
     notFound();
   }
@@ -62,7 +73,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#131415] py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
+    <div className="min-h-screen bg-theme-bg py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
@@ -73,32 +84,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <div className="w-full max-w-4xl">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest text-slate-400 hover:text-white uppercase transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest text-theme-card-subtext hover:text-theme-card-text uppercase transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          BACK TO INSIGHTS
+          {t.blogBack}
         </Link>
       </div>
 
       {/* Title Card */}
-      <div className="w-full max-w-4xl bg-[#212224] text-white rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#2c2d30] shadow-2xl relative overflow-hidden">
+      <div className="w-full max-w-4xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
         <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[300px] h-[300px] border-[12px] border-white/10 rounded-full blur-[2px] shadow-[0_0_80px_rgba(255,255,255,0.06)] pointer-events-none hidden md:block"></div>
         <div className="space-y-4 relative z-10">
           <div className="flex flex-wrap gap-2">
             {post.category && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-mono tracking-widest bg-white/5 border border-white/10 text-slate-400 uppercase">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-mono tracking-widest bg-white/5 border border-white/10 text-theme-card-subtext uppercase">
                 {post.category}
               </span>
             )}
           </div>
-          <h1 className="font-teko text-5xl sm:text-7xl font-bold uppercase tracking-wider leading-none text-white">
+          <h1 className="font-teko text-5xl sm:text-7xl font-bold uppercase tracking-wider leading-none text-theme-card-text">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-widest text-slate-500 pt-2 border-b border-[#3a3b3d] pb-4">
+          <div className="flex flex-wrap items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-widest text-theme-card-subtext pt-2 border-b border-[#3a3b3d] pb-4">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               {post.publishedAt
-                ? new Date(post.publishedAt).toLocaleDateString("th-TH", {
+                ? new Date(post.publishedAt).toLocaleDateString(lang === "th" ? "th-TH" : "en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -107,7 +118,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </span>
             <span className="flex items-center gap-1.5">
               <Eye className="w-4 h-4" />
-              {post.views} VIEWS
+              {post.views} {lang === "th" ? "ครั้ง" : "VIEWS"}
             </span>
           </div>
         </div>
@@ -115,7 +126,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Cover Image */}
       {post.coverImage && (
-        <div className="w-full max-w-4xl bg-[#2d2e30] border-[4px] border-[#202225] rounded-[2.5rem] p-4 shadow-2xl overflow-hidden aspect-video relative">
+        <div className="w-full max-w-4xl bg-theme-card-bg border-[4px] border-theme-card-border rounded-[2.5rem] p-4 shadow-2xl overflow-hidden aspect-video relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.coverImage}
@@ -126,7 +137,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       )}
 
       {/* Article Body Card */}
-      <div className="w-full max-w-4xl bg-[#212224] border-[4px] border-[#2c2d30] rounded-[2.5rem] p-8 md:p-14 shadow-2xl relative">
+      <div className="w-full max-w-4xl bg-theme-card-bg border-[4px] border-theme-card-border rounded-[2.5rem] p-6 md:p-14 shadow-2xl relative">
         <div 
           className="prose-custom max-w-none pt-2"
           dangerouslySetInnerHTML={{ __html: post.content }}
@@ -138,7 +149,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.tags.map((tag) => (
               <span 
                 key={tag}
-                className="bg-[#2d2e30] text-slate-300 border border-white/5 text-[9px] font-bold uppercase px-3 py-1.5 rounded-full"
+                className="bg-theme-card-bg text-theme-card-subtext border border-white/5 text-[9px] font-bold uppercase px-3 py-1.5 rounded-full"
               >
                 #{tag}
               </span>
@@ -148,15 +159,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
 
       {/* Bottom CTA Box Card */}
-      <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#202225] shadow-2xl text-center space-y-6">
-        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">MORE ARTICLES</h3>
-        <p className="text-xs text-[#2d2e30] max-w-sm mx-auto font-light leading-relaxed">
-          พวกเราอัปเดตบทความสาระความรู้เกี่ยวกับเสื้อผ้าเครื่องแต่งกาย ยูนิฟอร์มองค์กร และนวัตกรรมใหม่ๆ ทุกสัปดาห์
+      <div className="w-full max-w-4xl bg-theme-inverted-bg text-theme-inverted-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl text-center space-y-6">
+        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.blogMore}</h3>
+        <p className="text-xs text-theme-inverted-text/80 max-w-sm mx-auto font-light leading-relaxed">
+          {t.blogMoreDesc}
         </p>
         <div className="pt-2 font-mono">
           <Link href="/blog">
-            <Button className="py-5 px-8 rounded-full bg-black text-white hover:bg-[#2d2e30] tracking-widest text-[9px] font-bold uppercase cursor-pointer">
-              BACK TO BLOG
+            <Button className="py-5 px-8 rounded-full bg-theme-bg text-theme-card-text hover:opacity-90 tracking-widest text-[9px] font-bold uppercase cursor-pointer">
+              {t.blogBackBtn}
             </Button>
           </Link>
         </div>

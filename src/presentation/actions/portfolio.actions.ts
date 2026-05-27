@@ -1,5 +1,12 @@
 "use server";
 
+/**
+ * @file portfolio.actions.ts
+ * @path src/presentation/actions/portfolio.actions.ts
+ * @description Server Actions สำหรับจัดการ CRUD ผลงานโครงการ รวมถึงการอัปโหลดภาพประกอบผลงาน
+ */
+
+
 import { requireAdmin } from "@/infrastructure/auth/require-admin";
 import { createProjectSchema, updateProjectSchema } from "@/application/dto/project.dto";
 import { container } from "@/infrastructure/di/container";

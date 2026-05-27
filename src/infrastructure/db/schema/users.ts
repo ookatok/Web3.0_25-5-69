@@ -1,3 +1,9 @@
+/**
+ * @file users.ts
+ * @path src/infrastructure/db/schema/users.ts
+ * @description กำหนดโครงสร้างตาราง users (id, email, passwordHash, name, role) สำหรับสิทธิ์ผู้ดูแลระบบ
+ */
+
 import { mysqlTable, varchar, timestamp, mysqlEnum } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {

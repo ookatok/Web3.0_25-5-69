@@ -1,3 +1,9 @@
+/**
+ * @file drizzle-contact-repository.ts
+ * @path src/infrastructure/repositories/drizzle-contact-repository.ts
+ * @description การพัฒนา ContactRepository ด้วย Drizzle ORM เพื่อจัดการบันทึกและดึงข้อมูลกล่องจดหมายสอบถามของลูกค้า
+ */
+
 import { ContactRepository } from "@/application/ports/contact-repository";
 import { Contact } from "@/domain/entities/contact";
 import { DbType } from "@/infrastructure/db/client";

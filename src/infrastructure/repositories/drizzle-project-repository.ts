@@ -1,3 +1,9 @@
+/**
+ * @file drizzle-project-repository.ts
+ * @path src/infrastructure/repositories/drizzle-project-repository.ts
+ * @description การพัฒนา ProjectRepository ด้วย Drizzle ORM เพื่อจัดการข้อมูลบันทึกและแก้ไขโครงการผลงาน
+ */
+
 import { ProjectRepository, ProjectRepositoryOptions } from "@/application/ports/project-repository";
 import { Project } from "@/domain/entities/project";
 import { DbType } from "@/infrastructure/db/client";

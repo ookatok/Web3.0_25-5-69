@@ -1,3 +1,9 @@
+/**
+ * @file post.dto.ts
+ * @path src/application/dto/post.dto.ts
+ * @description Data Transfer Object (DTO) สำหรับขั้นตอนการสร้างและอัปเดตบทความบล็อก
+ */
+
 import { z } from "zod";
 
 export const createPostSchema = z.object({

@@ -1,3 +1,9 @@
+/**
+ * @file contact.dto.ts
+ * @path src/application/dto/contact.dto.ts
+ * @description Data Transfer Object (DTO) สำหรับการส่งข้อความติดต่อและการประมาณราคา พร้อมเงื่อนไขตรวจสอบเบอร์โทรศัพท์ที่ยืดหยุ่นและปลอดภัย
+ */
+
 import { z } from "zod";
 
 export const createContactSchema = z.object({

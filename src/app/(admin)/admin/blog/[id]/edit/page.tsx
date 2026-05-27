@@ -1,3 +1,9 @@
+/**
+ * @file page.tsx
+ * @path src/app/(admin)/admin/blog/[id]/edit/page.tsx
+ * @description หน้าสำหรับโหลดข้อมูลบทความเดิมมาเพื่อแก้ไขและบันทึกการเปลี่ยนแปลงใหม่
+ */
+
 import React from "react";
 import { notFound } from "next/navigation";
 import { container } from "@/infrastructure/di/container";

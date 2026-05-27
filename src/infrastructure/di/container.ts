@@ -1,3 +1,9 @@
+/**
+ * @file container.ts
+ * @path src/infrastructure/di/container.ts
+ * @description Dependency Injection Container (DI) ทำหน้าที่จดจำและลงทะเบียนอินสแตนซ์ของ Repositories และ Use Cases ทั้งหมดในระบบ
+ */
+
 import { db } from "@/infrastructure/db/client";
 import { DrizzleUserRepository } from "@/infrastructure/repositories/drizzle-user-repository";
 import { BcryptPasswordHasher } from "@/infrastructure/auth/bcrypt-password-hasher";

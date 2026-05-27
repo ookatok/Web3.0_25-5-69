@@ -1,3 +1,9 @@
+/**
+ * @file env.ts
+ * @path src/shared/config/env.ts
+ * @description ตัวช่วยโหลดตัวแปรสภาพแวดล้อมพร้อมตรวจจับข้อผิดพลาดหากขาดตัวแปรหลักไป
+ */
+
 import { loadEnvConfig } from "@next/env";
 import { z } from "zod";
 

@@ -1,3 +1,9 @@
+/**
+ * @file card.tsx
+ * @path src/presentation/components/ui/card.tsx
+ * @description Shadcn UI Primitive - การ์ดแสดงผลข้อมูลที่มีกรอบและหัวข้อที่จัดเรียงเรียบร้อย
+ */
+
 import * as React from "react"
 import { cn } from "@/shared/utils/cn"
 

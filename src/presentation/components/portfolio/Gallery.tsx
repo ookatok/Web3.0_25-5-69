@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file Gallery.tsx
+ * @path src/presentation/components/portfolio/Gallery.tsx
+ * @description แกลเลอรีภาพผลงาน รองรับการสลับดูภาพปก และปรับแต่งแถบเลื่อนแนวขวางที่สมูทบนหน้าจอมือถือ
+ */
+
+
 import React, { useState } from "react";
 import { cn } from "@/shared/utils/cn";
 
@@ -13,7 +20,7 @@ export default function Gallery({ images, title }: GalleryProps) {
 
   if (images.length === 0) {
     return (
-      <div className="w-full aspect-video rounded-[1.8rem] bg-[#1d1f22] border-2 border-[#444] flex items-center justify-center text-slate-500 font-light text-xs uppercase tracking-widest font-mono">
+      <div className="w-full aspect-video rounded-[1.8rem] bg-theme-bg border-2 border-theme-card-border flex items-center justify-center text-theme-card-subtext font-light text-xs uppercase tracking-widest font-mono">
         NO IMAGES AVAILABLE
       </div>
     );
@@ -22,7 +29,7 @@ export default function Gallery({ images, title }: GalleryProps) {
   return (
     <div className="space-y-4 font-sans">
       {/* Active Big Image */}
-      <div className="relative aspect-[4/3] sm:aspect-video w-full rounded-[1.8rem] overflow-hidden border-2 border-[#444] bg-[#1d1f22]">
+      <div className="relative aspect-[4/3] sm:aspect-video w-full rounded-[1.8rem] overflow-hidden border-2 border-theme-card-border bg-theme-bg">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={activeImage}
@@ -33,7 +40,7 @@ export default function Gallery({ images, title }: GalleryProps) {
 
       {/* Thumbnails Row */}
       {images.length > 1 && (
-        <div className="flex flex-wrap gap-3">
+        <div className="flex overflow-x-auto whitespace-nowrap scrollbar-none gap-3 pb-2">
           {images.map((img, idx) => {
             const isActive = img === activeImage;
 
@@ -43,10 +50,10 @@ export default function Gallery({ images, title }: GalleryProps) {
                 type="button"
                 onClick={() => setActiveImage(img)}
                 className={cn(
-                  "relative w-16 h-16 sm:w-20 sm:h-20 bg-[#1d1f22] rounded-[1rem] overflow-hidden border-2 transition-all cursor-pointer",
+                  "relative w-16 h-16 sm:w-20 sm:h-20 bg-theme-bg rounded-[1rem] overflow-hidden border-2 transition-all cursor-pointer",
                   isActive 
                     ? "border-white scale-105" 
-                    : "border-transparent hover:border-[#444]"
+                    : "border-transparent hover:border-theme-card-border"
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

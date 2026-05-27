@@ -1,3 +1,9 @@
+/**
+ * @file bcrypt-password-hasher.ts
+ * @path src/infrastructure/auth/bcrypt-password-hasher.ts
+ * @description การเขียน implementation ของ PasswordHasher สำหรับการเข้ารหัสรหัสผ่านที่เสถียรผ่านไลบรารี bcrypt
+ */
+
 import { PasswordHasher } from "@/application/ports/password-hasher";
 import bcrypt from "bcrypt";
 

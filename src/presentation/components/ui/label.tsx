@@ -1,5 +1,12 @@
 "use client"
 
+
+/**
+ * @file label.tsx
+ * @path src/presentation/components/ui/label.tsx
+ * @description Shadcn UI Primitive - เลเบลข้อความสำหรับฟิลด์รับข้อมูลของแบบฟอร์ม
+ */
+
 import * as React from "react"
 
 import { cn } from "@/shared/utils/cn"

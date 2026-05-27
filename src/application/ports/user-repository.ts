@@ -1,3 +1,9 @@
+/**
+ * @file user-repository.ts
+ * @path src/application/ports/user-repository.ts
+ * @description อินเตอร์เฟสพอร์ต (Port Interface) สำหรับจัดการข้อมูลผู้ใช้ (User) ในระดับ Application Layer เพื่อให้ Repository นำไปสืบทอด
+ */
+
 import { User } from "@/domain/entities/user";
 
 export interface UserRepository {

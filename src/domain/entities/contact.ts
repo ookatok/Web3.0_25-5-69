@@ -1,3 +1,9 @@
+/**
+ * @file contact.ts
+ * @path src/domain/entities/contact.ts
+ * @description เอนทิตีการติดต่อ (Contact Entity) ในระดับ Domain Layer กำหนดคุณลักษณะการส่งข้อความติดต่อและแบบประเมินราคาเสื้อของลูกค้า
+ */
+
 export interface ContactProps {
   id: string;
   name: string;

@@ -1,3 +1,9 @@
+/**
+ * @file update-post.ts
+ * @path src/application/use-cases/blog/update-post.ts
+ * @description ยูสเคส (Use Case) สำหรับอัปเดตแก้ไขข้อมูลรายละเอียดต่างๆ ของบทความบล็อกที่มีอยู่แล้ว
+ */
+
 import { PostRepository } from "@/application/ports/post-repository";
 import { UpdatePostInput } from "@/application/dto/post.dto";
 import { Post } from "@/domain/entities/post";

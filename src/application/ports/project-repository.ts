@@ -1,3 +1,9 @@
+/**
+ * @file project-repository.ts
+ * @path src/application/ports/project-repository.ts
+ * @description อินเตอร์เฟสพอร์ต (Port Interface) สำหรับกระบวนการเข้าถึงฐานข้อมูลของผลงานโครงการ (Project)
+ */
+
 import { Project } from "@/domain/entities/project";
 
 export interface ProjectRepositoryOptions {

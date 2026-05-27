@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file page.tsx
+ * @path src/app/(admin)/login/page.tsx
+ * @description หน้าระบบล็อกอินสำหรับผู้ดูแลระบบ (Admin Login) ออกแบบสไตล์มินิมอลโมโนโครม
+ */
+
+
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { loginAction } from "@/presentation/actions/auth.actions";

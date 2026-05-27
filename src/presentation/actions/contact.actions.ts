@@ -1,5 +1,12 @@
 "use server";
 
+/**
+ * @file contact.actions.ts
+ * @path src/presentation/actions/contact.actions.ts
+ * @description Server Actions สำหรับการส่งข้อมูลติดต่อของฝั่งผู้ใช้ทั่วไป และลบข้อความกล่องจดหมายของฝั่งผู้ดูแลระบบ
+ */
+
+
 import { requireAdmin } from "@/infrastructure/auth/require-admin";
 import { createContactSchema } from "@/application/dto/contact.dto";
 import { container } from "@/infrastructure/di/container";

@@ -1,3 +1,9 @@
+/**
+ * @file page.tsx
+ * @path src/app/(admin)/admin/portfolio/new/page.tsx
+ * @description หน้าสร้างและบันทึกข้อมูลผลงานโครงการอันใหม่เข้าสู่ตารางฐานข้อมูล
+ */
+
 import React from "react";
 import ProjectForm from "@/presentation/components/portfolio/ProjectForm";
 import { createProjectAction } from "@/presentation/actions/portfolio.actions";

@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file TiptapEditor.tsx
+ * @path src/presentation/components/blog/TiptapEditor.tsx
+ * @description กล่องเครื่องมือแก้ไขข้อความและเนื้อหา HTML (Rich Text Editor) ขับเคลื่อนด้วย Tiptap Editor
+ */
+
+
 import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -30,8 +37,8 @@ const MenuButton = ({
     onClick={onClick}
     disabled={disabled}
     className={cn(
-      "p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer",
-      isActive && "bg-white text-black hover:bg-neutral-200 hover:text-black"
+      "p-1.5 rounded hover:bg-theme-bg text-theme-card-subtext hover:text-theme-card-text transition-all cursor-pointer",
+      isActive && "bg-theme-inverted-bg text-theme-inverted-text hover:opacity-90"
     )}
   >
     {children}
@@ -45,7 +52,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
     editorProps: {
       attributes: {
         class: cn(
-          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-slate-800 bg-slate-950/40 p-4 text-xs font-light leading-relaxed text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-neutral-400/20 focus:border-neutral-400 transition-all font-sans prose prose-invert max-w-none"
+          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-theme-card-border bg-theme-input-bg p-4 text-xs font-light leading-relaxed text-theme-card-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 focus:border-theme-card-text transition-all font-sans prose dark:prose-invert max-w-none"
         ),
       },
     },
@@ -73,9 +80,9 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
   }
 
   return (
-    <div className="w-full flex flex-col border border-slate-800 rounded-lg overflow-hidden bg-slate-900/40">
+    <div className="w-full flex flex-col border border-theme-card-border rounded-lg overflow-hidden bg-theme-bg/40">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 p-2 bg-slate-900 border-b border-slate-800 shrink-0">
+      <div className="flex flex-wrap items-center gap-1 p-2 bg-theme-card-bg border-b border-theme-card-border shrink-0">
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
           isActive={editor.isActive("bold")}
@@ -91,7 +98,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
           <Italic className="w-3.5 h-3.5" />
         </MenuButton>
 
-        <div className="w-px h-4 bg-slate-800 mx-1 shrink-0"></div>
+        <div className="w-px h-4 bg-theme-card-border mx-1 shrink-0"></div>
 
         <MenuButton
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -115,7 +122,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
           <Heading3 className="w-3.5 h-3.5" />
         </MenuButton>
 
-        <div className="w-px h-4 bg-slate-800 mx-1 shrink-0"></div>
+        <div className="w-px h-4 bg-theme-card-border mx-1 shrink-0"></div>
 
         <MenuButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -139,7 +146,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
           <Quote className="w-3.5 h-3.5" />
         </MenuButton>
 
-        <div className="w-px h-4 bg-slate-800 mx-1 shrink-0"></div>
+        <div className="w-px h-4 bg-theme-card-border mx-1 shrink-0"></div>
 
         <MenuButton onClick={() => editor.chain().focus().undo().run()} disabled={disabled}>
           <Undo className="w-3.5 h-3.5" />

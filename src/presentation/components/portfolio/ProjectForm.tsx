@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file ProjectForm.tsx
+ * @path src/presentation/components/portfolio/ProjectForm.tsx
+ * @description ส่วนติดต่อผู้ใช้ (Component Form) สำหรับการสร้างและแก้ไขผลงานโครงการ
+ */
+
+
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/presentation/components/ui/button";
@@ -99,8 +106,8 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 font-sans max-w-4xl">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-900">
-        <Link href="/admin/portfolio" className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-all">
+      <div className="flex items-center justify-between pb-4 border-b border-theme-card-border">
+        <Link href="/admin/portfolio" className="inline-flex items-center gap-1.5 text-xs text-theme-card-subtext hover:text-theme-card-text transition-all">
           <ArrowLeft className="w-4 h-4" />
           กลับไปตารางผลงาน
         </Link>
@@ -108,7 +115,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
         <Button
           type="submit"
           disabled={isPending}
-          className="py-4 px-6 rounded-lg font-semibold bg-white text-black hover:bg-neutral-200 shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+          className="py-4 px-6 rounded-lg font-semibold bg-theme-button-primary-bg text-theme-button-primary-text hover:opacity-90 shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           {isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -130,7 +137,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
         <div className="md:col-span-2 space-y-6">
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="title" className="text-xs font-semibold text-theme-card-text">
               ชื่อผลงาน / โครงการ *
             </Label>
             <Input
@@ -140,13 +147,13 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isPending}
-              className="bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg"
+              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg"
             />
           </div>
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="description" className="text-xs font-semibold text-theme-card-text">
               รายละเอียดผลงาน *
             </Label>
             <textarea
@@ -156,7 +163,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isPending}
-              className="w-full p-3 bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-neutral-400/20 transition-all rounded-lg text-xs font-light"
+              className="w-full p-3 bg-theme-input-bg border border-theme-input-border text-theme-input-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 transition-all rounded-lg text-xs font-light"
             ></textarea>
           </div>
 
@@ -170,12 +177,12 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
         </div>
 
         {/* Side Panel (Settings) */}
-        <div className="space-y-6 bg-slate-900/30 p-6 rounded-xl border border-slate-900 h-fit">
-          <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-3">ตั้งค่าผลงาน</h3>
+        <div className="space-y-6 bg-theme-card-bg p-6 rounded-xl border border-theme-card-border h-fit shadow-sm">
+          <h3 className="text-sm font-bold text-theme-card-text border-b border-theme-card-border pb-3">ตั้งค่าผลงาน</h3>
 
           {/* Status */}
           <div className="space-y-2">
-            <Label htmlFor="status" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="status" className="text-xs font-semibold text-theme-card-text">
               สถานะการเผยแพร่
             </Label>
             <select
@@ -183,7 +190,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={status}
               onChange={(e) => setStatus(e.target.value as "DRAFT" | "PUBLISHED")}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
+              className="w-full p-2.5 bg-theme-input-bg border border-theme-input-border text-theme-input-text rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-theme-card-text/20"
             >
               <option value="DRAFT">ฉบับร่าง (Draft)</option>
               <option value="PUBLISHED">เผยแพร่สาธารณะ (Published)</option>
@@ -192,7 +199,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
 
           {/* Category */}
           <div className="space-y-2">
-            <Label htmlFor="category" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="category" className="text-xs font-semibold text-theme-card-text">
               ประเภทงาน
             </Label>
             <select
@@ -200,7 +207,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
+              className="w-full p-2.5 bg-theme-input-bg border border-theme-input-border text-theme-input-text rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-theme-card-text/20"
             >
               <option value="เสื้อยืด">เสื้อยืด (T-Shirt)</option>
               <option value="เสื้อโปโล">เสื้อโปโล (Polo Shirt)</option>
@@ -212,7 +219,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
 
           {/* Client */}
           <div className="space-y-2">
-            <Label htmlFor="client" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="client" className="text-xs font-semibold text-theme-card-text">
               ชื่อลูกค้า / องค์กรผู้สั่งผลิต
             </Label>
             <Input
@@ -222,13 +229,13 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={client}
               onChange={(e) => setClient(e.target.value)}
               disabled={isPending}
-              className="bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg text-xs"
+              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg text-xs"
             />
           </div>
 
           {/* Date */}
           <div className="space-y-2">
-            <Label htmlFor="date" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="date" className="text-xs font-semibold text-theme-card-text">
               วันที่ส่งมอบงาน / ผลิต
             </Label>
             <input
@@ -237,7 +244,7 @@ export default function ProjectForm({ initialData, onSubmitAction }: ProjectForm
               value={dateStr}
               onChange={(e) => setDateStr(e.target.value)}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
+              className="w-full p-2.5 bg-theme-input-bg border border-theme-input-border text-theme-input-text rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-theme-card-text/20"
             />
           </div>
         </div>

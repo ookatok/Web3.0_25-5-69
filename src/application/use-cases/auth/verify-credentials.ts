@@ -1,3 +1,9 @@
+/**
+ * @file verify-credentials.ts
+ * @path src/application/use-cases/auth/verify-credentials.ts
+ * @description ยูสเคส (Use Case) ตรวจสอบความถูกต้องของบัญชีผู้ใช้เมื่อล็อกอินเข้าสู่ระบบ
+ */
+
 import { UserRepository } from "@/application/ports/user-repository";
 import { PasswordHasher } from "@/application/ports/password-hasher";
 import { User } from "@/domain/entities/user";

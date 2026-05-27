@@ -1,3 +1,9 @@
+/**
+ * @file accordion.tsx
+ * @path src/presentation/components/ui/accordion.tsx
+ * @description Shadcn UI Primitive - ส่วนประกอบ Accordion แสดงรายการข้อมูลเปิด-ปิดหัวข้อ
+ */
+
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 
 import { cn } from "@/shared/utils/cn"

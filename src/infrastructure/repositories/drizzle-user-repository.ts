@@ -1,3 +1,9 @@
+/**
+ * @file drizzle-user-repository.ts
+ * @path src/infrastructure/repositories/drizzle-user-repository.ts
+ * @description การพัฒนา UserRepository ด้วย Drizzle ORM เพื่อเข้าถึงข้อมูลของผู้ดูแลระบบในตาราง users
+ */
+
 import { UserRepository } from "@/application/ports/user-repository";
 import { User } from "@/domain/entities/user";
 import { DbType } from "@/infrastructure/db/client";

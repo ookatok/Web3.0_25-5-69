@@ -1,3 +1,9 @@
+/**
+ * @file projects.ts
+ * @path src/infrastructure/db/schema/projects.ts
+ * @description กำหนดโครงสร้างตาราง projects (id, title, slug, description, category, images, status, createdAt) สำหรับเก็บผลงาน
+ */
+
 import { mysqlTable, varchar, text, json, timestamp, mysqlEnum, index } from "drizzle-orm/mysql-core";
 
 export const projects = mysqlTable("projects", {

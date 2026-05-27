@@ -1,3 +1,9 @@
+/**
+ * @file create-post.ts
+ * @path src/application/use-cases/blog/create-post.ts
+ * @description ยูสเคส (Use Case) สำหรับสร้างบทความบล็อกใหม่ในระบบ และตรวจสอบความซ้ำกันของ URL Slug
+ */
+
 import { PostRepository } from "@/application/ports/post-repository";
 import { CreatePostInput } from "@/application/dto/post.dto";
 import { Post } from "@/domain/entities/post";

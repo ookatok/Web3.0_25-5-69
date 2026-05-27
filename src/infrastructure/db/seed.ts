@@ -1,3 +1,9 @@
+/**
+ * @file seed.ts
+ * @path src/infrastructure/db/seed.ts
+ * @description สคริปต์สำหรับการ Seed ข้อมูลแอดมินเริ่มต้นลงในฐานข้อมูล และเข้ารหัสผ่านด้วย bcrypt
+ */
+
 import { container } from "../di/container";
 import { User } from "@/domain/entities/user";
 import crypto from "crypto";

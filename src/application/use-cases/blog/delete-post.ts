@@ -1,3 +1,9 @@
+/**
+ * @file delete-post.ts
+ * @path src/application/use-cases/blog/delete-post.ts
+ * @description ยูสเคส (Use Case) สำหรับลบบทความบล็อกออกจากฐานข้อมูลด้วยไอดี
+ */
+
 import { PostRepository } from "@/application/ports/post-repository";
 
 export class DeletePost {

@@ -1,3 +1,9 @@
+/**
+ * @file input.tsx
+ * @path src/presentation/components/ui/input.tsx
+ * @description Shadcn UI Primitive - กล่องรับข้อมูลข้อความ (Text Input)
+ */
+
 import * as React from "react"
 import { Input as InputPrimitive } from "@base-ui/react/input"
 

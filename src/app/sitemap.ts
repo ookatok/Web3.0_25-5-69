@@ -1,3 +1,9 @@
+/**
+ * @file sitemap.ts
+ * @path src/app/sitemap.ts
+ * @description ไฟล์สังเคราะห์แผงลิกน์หน้าเว็บทั้งหมด (Sitemap.xml) อำนวยความสะดวกในการจัดอันดับบน Google
+ */
+
 import { MetadataRoute } from "next";
 import { container } from "@/infrastructure/di/container";
 

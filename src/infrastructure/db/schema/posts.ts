@@ -1,3 +1,9 @@
+/**
+ * @file posts.ts
+ * @path src/infrastructure/db/schema/posts.ts
+ * @description กำหนดโครงสร้างตาราง posts (id, title, slug, content, coverImage, status, views, publishedAt) สำหรับเก็บบล็อกบทความ
+ */
+
 import { mysqlTable, varchar, text, json, int, timestamp, mysqlEnum, index } from "drizzle-orm/mysql-core";
 
 export const posts = mysqlTable("posts", {

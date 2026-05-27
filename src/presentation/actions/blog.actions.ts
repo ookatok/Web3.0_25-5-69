@@ -1,5 +1,12 @@
 "use server";
 
+/**
+ * @file blog.actions.ts
+ * @path src/presentation/actions/blog.actions.ts
+ * @description Server Actions สำหรับจัดการ CRUD บล็อกบทความ ป้องกัน XSS โดยใช้ sanitize-html และตรวจสอบสิทธิ์แอดมินก่อนทำงาน
+ */
+
+
 import { requireAdmin } from "@/infrastructure/auth/require-admin";
 import { createPostSchema, updatePostSchema } from "@/application/dto/post.dto";
 import { container } from "@/infrastructure/di/container";

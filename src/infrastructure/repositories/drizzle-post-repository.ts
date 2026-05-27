@@ -1,3 +1,9 @@
+/**
+ * @file drizzle-post-repository.ts
+ * @path src/infrastructure/repositories/drizzle-post-repository.ts
+ * @description การพัฒนา PostRepository ด้วย Drizzle ORM เพื่อสร้าง อ่าน แก้ไข ลบ ข้อมูลบทความในฐานข้อมูล
+ */
+
 import { PostRepository, PostRepositoryOptions } from "@/application/ports/post-repository";
 import { Post } from "@/domain/entities/post";
 import { DbType } from "@/infrastructure/db/client";

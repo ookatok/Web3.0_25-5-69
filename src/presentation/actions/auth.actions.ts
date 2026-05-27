@@ -1,5 +1,12 @@
 "use server";
 
+/**
+ * @file auth.actions.ts
+ * @path src/presentation/actions/auth.actions.ts
+ * @description Server Actions สำหรับควบคุมพฤติกรรม Login และ Logout ฝั่งผู้ดูแลระบบ
+ */
+
+
 import { loginSchema } from "@/application/dto/auth.dto";
 import { signIn, signOut } from "@/infrastructure/auth/auth";
 import { AuthError } from "next-auth";

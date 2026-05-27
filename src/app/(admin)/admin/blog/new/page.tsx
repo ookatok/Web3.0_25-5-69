@@ -1,3 +1,9 @@
+/**
+ * @file page.tsx
+ * @path src/app/(admin)/admin/blog/new/page.tsx
+ * @description หน้าสำหรับแอดมินเขียนและเพิ่มบทความบล็อกข่าวสารอันใหม่เข้าสู่ระบบ
+ */
+
 import React from "react";
 import PostForm from "@/presentation/components/blog/PostForm";
 import { createPostAction } from "@/presentation/actions/blog.actions";

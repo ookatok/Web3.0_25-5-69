@@ -1,3 +1,9 @@
+/**
+ * @file upload-service.ts
+ * @path src/infrastructure/services/upload-service.ts
+ * @description บริการตรวจเช็คความปลอดภัยของภาพอัปโหลด ป้องกันการอัปโหลดไฟล์ไม่พึงประสงค์ (เช็ค Magic Bytes, ขนาด, นามสกุลจริง และเปลี่ยนชื่อไฟล์เป็นแบบสุ่ม)
+ */
+
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";

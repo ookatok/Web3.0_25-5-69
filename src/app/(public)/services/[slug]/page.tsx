@@ -1,17 +1,18 @@
+/**
+ * @file page.tsx
+ * @path src/app/(public)/services/[slug]/page.tsx
+ * @description หน้าแสดงคุณสมบัติเฉพาะของเสื้อแต่ละประเภท เช่น เนื้อผ้าที่แนะนำ ขั้นตอนการสั่งผลิต และปุ่มสั่งจอง
+ */
+
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Phone, Send } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
+import { cookies } from "next/headers";
+import { translations } from "@/shared/i18n/translations";
 
-const servicesDetails: Record<string, {
-  title: string;
-  subtitle: string;
-  description: string;
-  fabrics: string[];
-  features: string[];
-  steps: string[];
-}> = {
+const servicesDetailsTh = {
   "t-shirt": {
     title: "ผลิตเสื้อยืดพิมพ์ลาย / ปักลาย (Custom T-Shirts)",
     subtitle: "เสื้อยืดพรีเมียม ตอบโจทย์ทุกกิจกรรมองค์กรและแบรนด์แฟชั่น",
@@ -102,50 +103,145 @@ const servicesDetails: Record<string, {
   }
 };
 
+const servicesDetailsEn = {
+  "t-shirt": {
+    title: "Custom T-Shirts Printing & Embroidery",
+    subtitle: "Premium t-shirts tailored for corporate events and fashion brands.",
+    description: "We manufacture custom circular and V-neck t-shirts. Designed for a comfortable fit, using soft, highly breathable fabrics that prevent stuffiness outdoors.",
+    fabrics: [
+      "100% Cotton (Combed grade, ultra-soft and thick)",
+      "Semi-Cotton (Medium grade, breathable and cost-effective)",
+      "Quick-Dry Athletic Fabric (Polyester, rapid sweat evaporation)"
+    ],
+    features: [
+      "Durable silkscreen print (Rubber/plastisol based, crack resistant)",
+      "Direct-To-Garment (DTG) print, high-definition direct fabric printing",
+      "Sublimation dye print, ideal for full-cover pattern t-shirts with durable colors"
+    ],
+    steps: [
+      "Submit design drafts or logos for price estimation",
+      "Our design team drafts a 3D digital mockup for review",
+      "Select fabric type, thickness grade, and base colors",
+      "Confirm deposit to produce the physical pre-production sample",
+      "Execute mass production and deliver within 7-14 business days"
+    ]
+  },
+  "polo": {
+    title: "Corporate Polo Shirt Production",
+    subtitle: "Woven-collar polos reinforcing team authority and professional style.",
+    description: "Polo shirts with tight knit collars that resist curling. Trim fittings for women and straight cuts for men, tailored neatly with double-stitching.",
+    fabrics: [
+      "Lacoste Cotton Blend (Soft, elegant textured look)",
+      "TC Fabric (Cotton/Polyester blend, wrinkle resistant, easy iron, colorfast)",
+      "CVC Fabric (High cotton percentage, soft, great sweat absorption, ideal for hot climates)"
+    ],
+    features: [
+      "High-definition computer embroidery, sharp and raised 3D logo stitching",
+      "Neat hidden button placket tailoring",
+      "Hem side slits with optional colorful accent tapes"
+    ],
+    steps: [
+      "Select collar designs and fabric color swatches",
+      "Submit logo vector files for computer embroidery scaling",
+      "Deliver quotation and size requirements summary (S-XXXL)",
+      "Build embroidery files and run a fabric sample for approval",
+      "Execute full-scale production, perform QC checks, and deliver on time"
+    ]
+  },
+  "cap": {
+    title: "Premium Cap & Gift Production",
+    subtitle: "Modern caps and premium corporate gifts promoting your brand everywhere.",
+    description: "We make 3D embroidered caps, bucket hats, canvas tote bags, and corporate souvenirs using premium raw materials that hold shape and colors.",
+    fabrics: [
+      "Thick cotton twill (Keeps structured crown shape)",
+      "Canvas (Classic, highly durable, heavy weight)",
+      "D-Y Fabric (Cost-effective and durable for massive volume events)"
+    ],
+    features: [
+      "3D raised computer embroidery lettering for high brand visibility",
+      "Various back closures (plastic snap, steel buckle, hook-and-loop velcro)",
+      "Buckram reinforced front panels keeping structured cap profile"
+    ],
+    steps: [
+      "Specify gift type and upload embroidery patterns",
+      "Our team delivers a quotation based on target order volume",
+      "Select fabric color, thickness, and cap accessories",
+      "Produce a physical confirmation sample before starting mass production",
+      "Manufacture, execute quality inspections, and package securely before shipping"
+    ]
+  },
+  "uniform": {
+    title: "Office Uniform & Workwear",
+    subtitle: "Durable, comfortable workwear with pristine tailoring all day long.",
+    description: "We manufacture staff shirts, factory overalls, corporate trousers, blazers, and lab coats. Focus is on heavy-duty double stitching to prevent split seams.",
+    fabrics: [
+      "Oxford Fabric (Soft, comfortable, ideal for modern office shirts)",
+      "Toray Fabric (Thick, highly durable, ideal for heavy industrial overalls)",
+      "Sateen Spandex (Stretchy, comfortable, and allowing high physical mobility)"
+    ],
+    features: [
+      "Tailored gender-specific patterns (fitted for women, straight cuts for men)",
+      "Reinforced bar-tack stitching on stress points (pockets, cuffs, crotches)",
+      "Embroidery or print of corporate logos and employee names"
+    ],
+    steps: [
+      "Specify uniform type, details, and target order volume",
+      "Send size run samples to your office for staff fittings (for large orders)",
+      "Deliver detailed price estimation based on chosen fabrics",
+      "Tailor a pre-production sample set for initial wear testing",
+      "Execute cutting and stitching, perform unit-by-unit QC, and deliver with warranty"
+    ]
+  }
+};
+
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const detail = servicesDetails[slug];
+  const cookieStore = await cookies();
+  const lang = (cookieStore.get("lang")?.value || "th") as "th" | "en";
+  const t = translations[lang];
+
+  const detail = lang === "th" ? servicesDetailsTh[slug as keyof typeof servicesDetailsTh] : servicesDetailsEn[slug as keyof typeof servicesDetailsEn];
 
   if (!detail) {
     notFound();
   }
 
   return (
-    <div className="min-h-screen bg-[#131415] py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
+    <div className="min-h-screen bg-theme-bg py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
       {/* Back Link */}
       <div className="w-full max-w-4xl">
         <Link
           href="/services"
-          className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest text-slate-400 hover:text-white uppercase transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-mono tracking-widest text-theme-card-subtext hover:text-theme-card-text uppercase transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          BACK TO SERVICES
+          {t.detailBack}
         </Link>
       </div>
 
       {/* Header Card */}
-      <div className="w-full max-w-4xl bg-[#212224] text-white rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#2c2d30] shadow-2xl relative overflow-hidden">
+      <div className="w-full max-w-4xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
         <div className="absolute -right-24 top-1/2 -translate-y-1/2 w-[300px] h-[300px] border-[12px] border-white/10 rounded-full blur-[2px] shadow-[0_0_80px_rgba(255,255,255,0.06)] pointer-events-none hidden md:block"></div>
         <div className="space-y-4 relative z-10">
-          <span className="font-mono text-[10px] tracking-widest text-slate-400 uppercase font-bold">Service Details</span>
+          <span className="font-mono text-[10px] tracking-widest text-theme-card-subtext uppercase font-bold">{t.detailSub}</span>
           <h1 className="font-teko text-5xl sm:text-7xl font-bold uppercase tracking-wider leading-none">
             {detail.title.split(" (")[0]}
           </h1>
-          <p className="font-mono text-xs text-slate-400 uppercase tracking-widest">
+          <p className="font-mono text-xs text-theme-card-subtext uppercase tracking-widest">
             {detail.subtitle}
           </p>
-          <p className="text-xs text-slate-400 max-w-lg leading-relaxed font-light pt-2">
+          <p className="text-xs text-theme-card-subtext max-w-lg leading-relaxed font-light pt-2">
             {detail.description}
           </p>
         </div>
       </div>
 
       {/* Fabrics & Features Card */}
-      <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#202225] shadow-2xl">
+      <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Fabrics */}
           <div className="space-y-4">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">เนื้อผ้าที่แนะนำ // RECOMMENDED FABRIC</h3>
+            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailFabricTitle}</h3>
             <ul className="space-y-3">
               {detail.fabrics.map((fabric, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs text-[#2d2e30] leading-relaxed font-light">
@@ -158,7 +254,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
           {/* Features */}
           <div className="space-y-4">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">เทคนิคและจุดเด่น // DETAILED TECHNIQUE</h3>
+            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailTechTitle}</h3>
             <ul className="space-y-3">
               {detail.features.map((feature, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs text-[#2d2e30] leading-relaxed font-light">
@@ -172,8 +268,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Ordering Steps Card */}
-      <div className="w-full max-w-4xl bg-[#212224] text-white rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#2c2d30] shadow-2xl space-y-8">
-        <h3 className="font-mono text-xs uppercase font-bold tracking-wider">ขั้นตอนการดำเนินการสั่งซื้อ // STEPS</h3>
+      <div className="w-full max-w-4xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl space-y-8">
+        <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailStepTitle}</h3>
         <div className="relative border-l border-slate-750 ml-3.5 pl-6 space-y-8">
           {detail.steps.map((step, idx) => (
             <div key={idx} className="relative">
@@ -188,20 +284,20 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* CTA Box Card */}
-      <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-8 md:p-12 border-[4px] border-[#202225] shadow-2xl text-center space-y-6">
-        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">ORDER PRODUCTION</h3>
+      <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl text-center space-y-6">
+        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.detailOrderTitle}</h3>
         <p className="text-xs text-[#2d2e30] max-w-sm mx-auto font-light leading-relaxed">
-          ติดต่อเราวันนี้เพื่อรับคำปรึกษา แนะนำเนื้อผ้า หรือส่งไฟล์โลโก้เพื่อขอประเมินราคาชิ้นงานเบื้องต้นได้ฟรี
+          {t.detailOrderDesc}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 font-mono">
           <Link href="/contact" className="w-full sm:w-auto">
             <Button className="w-full py-5 px-8 rounded-full bg-black text-white hover:bg-zinc-800 tracking-widest text-[9px] font-bold uppercase cursor-pointer">
-              REQUEST QUOTE
+              {t.detailOrderBtn}
             </Button>
           </Link>
           <a
             href="tel:0999999999"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-[#2d2e30] text-white hover:bg-black transition-all uppercase"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-theme-card-bg text-theme-card-text hover:bg-black transition-all uppercase"
           >
             CALL 099-999-9999
           </a>

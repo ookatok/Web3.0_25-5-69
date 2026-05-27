@@ -1,3 +1,9 @@
+/**
+ * @file auth.ts
+ * @path src/infrastructure/auth/auth.ts
+ * @description ตัวกำหนดค่า NextAuth หลักที่รันบนสภาพแวดล้อม Node.js เพื่อประมวลผลการตรวจสอบสิทธิ์ผู้ใช้ด้วยรหัสผ่านผ่าน bcrypt และฐานข้อมูล
+ */
+
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";

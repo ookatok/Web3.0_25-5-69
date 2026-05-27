@@ -1,3 +1,9 @@
+/**
+ * @file page.tsx
+ * @path src/app/(admin)/admin/portfolio/[id]/edit/page.tsx
+ * @description หน้าโหลดข้อมูลผลงานโครงการเก่าขึ้นมาแสดงผลเพื่ออัปเดตรายละเอียดใหม่
+ */
+
 import React from "react";
 import { notFound } from "next/navigation";
 import { container } from "@/infrastructure/di/container";

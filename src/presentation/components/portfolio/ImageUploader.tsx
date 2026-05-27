@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file ImageUploader.tsx
+ * @path src/presentation/components/portfolio/ImageUploader.tsx
+ * @description ส่วนการอัปโหลดภาพแบบลากวางไฟล์ (Drag and Drop Uploader) มีปุ่มลบรูปภาพและตั้งรูปภาพหลัก (Cover)
+ */
+
+
 import React, { useState, useRef } from "react";
 import { Upload, X, Star, Loader2 } from "lucide-react";
 import { uploadProjectImageAction } from "@/presentation/actions/portfolio.actions";
@@ -111,7 +118,7 @@ export default function ImageUploader({
 
   return (
     <div className="space-y-4 font-sans text-xs">
-      <label className="block font-semibold text-slate-300">
+      <label className="block font-semibold text-theme-card-text">
         รูปภาพผลงาน (อัปโหลดได้หลายรูป)
       </label>
 
@@ -122,8 +129,8 @@ export default function ImageUploader({
         onDrop={handleDrop}
         onClick={triggerFileInput}
         className={cn(
-          "border-2 border-dashed border-slate-800 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center space-y-3 bg-slate-900/10 hover:bg-slate-900/20 hover:border-neutral-400/30",
-          isDragOver && "border-white bg-white/5",
+          "border-2 border-dashed border-theme-card-border rounded-xl p-8 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center space-y-3 bg-theme-bg/10 hover:bg-theme-bg/20 hover:border-theme-card-text/30",
+          isDragOver && "border-theme-card-text bg-theme-bg",
           disabled && "opacity-50 pointer-events-none"
         )}
       >
@@ -138,14 +145,14 @@ export default function ImageUploader({
         />
 
         {isUploading ? (
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-theme-card-text animate-spin" />
         ) : (
-          <Upload className="w-8 h-8 text-slate-500" />
+          <Upload className="w-8 h-8 text-theme-card-subtext" />
         )}
 
         <div className="space-y-1">
-          <p className="text-slate-200 font-medium">ลากรูปภาพมาวางที่นี่ หรือคลิกเพื่ออัปโหลด</p>
-          <p className="text-slate-500 text-[10px]">รองรับเฉพาะ JPEG, PNG, WEBP ขนาดไม่เกิน 5MB ต่อไฟล์</p>
+          <p className="text-theme-card-text font-medium">ลากรูปภาพมาวางที่นี่ หรือคลิกเพื่ออัปโหลด</p>
+          <p className="text-theme-card-subtext text-[10px]">รองรับเฉพาะ JPEG, PNG, WEBP ขนาดไม่เกิน 5MB ต่อไฟล์</p>
         </div>
       </div>
 
@@ -166,8 +173,8 @@ export default function ImageUploader({
               <div
                 key={img}
                 className={cn(
-                  "group relative aspect-square bg-slate-900 rounded-lg border border-slate-800 overflow-hidden flex flex-col justify-end transition-all",
-                  isCover && "border-white ring-2 ring-white/20"
+                  "group relative aspect-square bg-theme-bg rounded-lg border border-theme-card-border overflow-hidden flex flex-col justify-end transition-all",
+                  isCover && "border-theme-card-text ring-2 ring-theme-card-text/20"
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

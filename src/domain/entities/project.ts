@@ -1,3 +1,9 @@
+/**
+ * @file project.ts
+ * @path src/domain/entities/project.ts
+ * @description เอนทิตีโครงการผลงาน (Project Entity) ในระดับ Domain Layer กำหนดคุณลักษณะข้อมูลของผลงานของร้าน
+ */
+
 export interface ProjectProps {
   id: string;
   title: string;

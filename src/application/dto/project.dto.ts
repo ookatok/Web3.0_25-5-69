@@ -1,3 +1,9 @@
+/**
+ * @file project.dto.ts
+ * @path src/application/dto/project.dto.ts
+ * @description Data Transfer Object (DTO) สำหรับขั้นตอนการสร้างและอัปเดตข้อมูลผลงานโครงการ
+ */
+
 import { z } from "zod";
 
 export const createProjectSchema = z.object({

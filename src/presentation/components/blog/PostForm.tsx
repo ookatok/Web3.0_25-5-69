@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * @file PostForm.tsx
+ * @path src/presentation/components/blog/PostForm.tsx
+ * @description ส่วนติดต่อผู้ใช้ (Component Form) สำหรับสร้างและแก้ไขเนื้อหาบทความบล็อกข่าวสาร
+ */
+
+
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -82,8 +89,8 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 font-sans max-w-4xl">
-      <div className="flex items-center justify-between pb-4 border-b border-slate-900">
-        <Link href="/admin/blog" className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-all">
+      <div className="flex items-center justify-between pb-4 border-b border-theme-card-border">
+        <Link href="/admin/blog" className="inline-flex items-center gap-1.5 text-xs text-theme-card-subtext hover:text-theme-card-text transition-all">
           <ArrowLeft className="w-4 h-4" />
           กลับไปตารางบทความ
         </Link>
@@ -91,7 +98,7 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
         <Button
           type="submit"
           disabled={isPending}
-          className="py-4 px-6 rounded-lg font-semibold bg-white text-black hover:bg-neutral-200 shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+          className="py-4 px-6 rounded-lg font-semibold bg-theme-button-primary-bg text-theme-button-primary-text hover:opacity-90 shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           {isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -113,7 +120,7 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
         <div className="md:col-span-2 space-y-6">
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="title" className="text-xs font-semibold text-theme-card-text">
               หัวข้อบทความ *
             </Label>
             <Input
@@ -123,13 +130,13 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isPending}
-              className="bg-slate-900 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg"
+              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg"
             />
           </div>
 
           {/* Excerpt */}
           <div className="space-y-2">
-            <Label htmlFor="excerpt" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="excerpt" className="text-xs font-semibold text-theme-card-text">
               คำเกริ่นนำสั้นๆ (Excerpt)
             </Label>
             <textarea
@@ -139,13 +146,13 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               disabled={isPending}
-              className="w-full p-3 bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-neutral-400/20 transition-all rounded-lg text-xs font-light"
+              className="w-full p-3 bg-theme-input-bg border border-theme-input-border text-theme-input-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 transition-all rounded-lg text-xs font-light"
             ></textarea>
           </div>
 
           {/* Content */}
           <div className="space-y-2">
-            <Label className="text-xs font-semibold text-slate-300">
+            <Label className="text-xs font-semibold text-theme-card-text">
               เนื้อหาบทความ *
             </Label>
             <TiptapEditor value={content} onChange={setContent} disabled={isPending} />
@@ -153,12 +160,12 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
         </div>
 
         {/* Side Panel (Settings) */}
-        <div className="space-y-6 bg-slate-900/30 p-6 rounded-xl border border-slate-900 h-fit">
-          <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-3">ตั้งค่าเผยแพร่</h3>
+        <div className="space-y-6 bg-theme-card-bg p-6 rounded-xl border border-theme-card-border h-fit shadow-sm">
+          <h3 className="text-sm font-bold text-theme-card-text border-b border-theme-card-border pb-3">ตั้งค่าเผยแพร่</h3>
 
           {/* Status */}
           <div className="space-y-2">
-            <Label htmlFor="status" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="status" className="text-xs font-semibold text-theme-card-text">
               สถานะ
             </Label>
             <select
@@ -166,7 +173,7 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
               value={status}
               onChange={(e) => setStatus(e.target.value as "DRAFT" | "PUBLISHED")}
               disabled={isPending}
-              className="w-full p-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400/20"
+              className="w-full p-2.5 bg-theme-input-bg border border-theme-input-border text-theme-input-text rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-theme-card-text/20"
             >
               <option value="DRAFT">ร่างบทความ (Draft)</option>
               <option value="PUBLISHED">เผยแพร่สาธารณะ (Published)</option>
@@ -175,7 +182,7 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
 
           {/* Category */}
           <div className="space-y-2">
-            <Label htmlFor="category" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="category" className="text-xs font-semibold text-theme-card-text">
               หมวดหมู่บทความ
             </Label>
             <Input
@@ -185,13 +192,13 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               disabled={isPending}
-              className="bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg text-xs"
+              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg text-xs"
             />
           </div>
 
           {/* Cover Image */}
           <div className="space-y-2">
-            <Label htmlFor="coverImage" className="text-xs font-semibold text-slate-300">
+            <Label htmlFor="coverImage" className="text-xs font-semibold text-theme-card-text">
               ลิงก์รูปหน้าปกบทความ
             </Label>
             <Input
@@ -201,7 +208,7 @@ export default function PostForm({ initialData, onSubmitAction }: PostFormProps)
               value={coverImage}
               onChange={(e) => setCoverImage(e.target.value)}
               disabled={isPending}
-              className="bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400/20 rounded-lg text-xs"
+              className="bg-theme-input-bg border-theme-input-border text-theme-input-text placeholder-slate-500 focus:border-theme-card-text focus:ring-1 focus:ring-theme-card-text/20 rounded-lg text-xs"
             />
           </div>
         </div>

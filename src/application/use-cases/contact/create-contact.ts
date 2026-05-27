@@ -1,3 +1,9 @@
+/**
+ * @file create-contact.ts
+ * @path src/application/use-cases/contact/create-contact.ts
+ * @description ยูสเคส (Use Case) บันทึกข้อมูลการติดต่อประเมินราคาเสื้อของลูกค้าลงในระบบฐานข้อมูล
+ */
+
 import { ContactRepository } from "@/application/ports/contact-repository";
 import { Contact } from "@/domain/entities/contact";
 import { CreateContactInput } from "@/application/dto/contact.dto";

@@ -1,3 +1,9 @@
+/**
+ * @file update-project.ts
+ * @path src/application/use-cases/portfolio/update-project.ts
+ * @description ยูสเคส (Use Case) อัปเดตรายละเอียดของโครงการผลงานที่มีอยู่ในฐานข้อมูล
+ */
+
 import { ProjectRepository } from "@/application/ports/project-repository";
 import { Project } from "@/domain/entities/project";
 import { UpdateProjectInput } from "@/application/dto/project.dto";

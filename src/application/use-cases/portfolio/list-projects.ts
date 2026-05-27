@@ -1,3 +1,9 @@
+/**
+ * @file list-projects.ts
+ * @path src/application/use-cases/portfolio/list-projects.ts
+ * @description ยูสเคส (Use Case) แสดงรายการผลงานโครงการทั้งหมด สามารถกรองแยกประเภทหมวดหมู่ได้
+ */
+
 import { ProjectRepository, ProjectRepositoryOptions } from "@/application/ports/project-repository";
 import { Project } from "@/domain/entities/project";
 
