@@ -1,14 +1,9 @@
-/**
- * @file layout.tsx
- * @path src/app/(admin)/admin/layout.tsx
- * @description หน้าโครงสร้างหลัก (Layout) ฝั่งแอดมิน ตรวจสอบสิทธิ์ผู้ดูแลระบบ ดึงคุกกี้ภาษา และแสดงแผงควบคุมระบบ
- */
-
 import React from "react";
 import { requireAdmin } from "@/infrastructure/auth/require-admin";
 import { auth } from "@/infrastructure/auth/auth";
 import { cookies } from "next/headers";
 import AdminNavigation from "@/presentation/components/admin/AdminNavigation";
+import { container } from "@/infrastructure/di/container";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -31,9 +26,18 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   const lang = (cookieStore.get("admin_lang")?.value || "th") as "th" | "en";
   const theme = (cookieStore.get("theme")?.value || "dark") as "dark" | "light";
 
+  // Fetch count of contact messages
+  let contactCount = 0;
+  try {
+    const contacts = await container.listContacts.execute();
+    contactCount = contacts.length;
+  } catch (err) {
+    console.error("Failed to fetch contact count for admin layout:", err);
+  }
+
   // 5. Wrap console pages in the responsive layout component with localized switcher
   return (
-    <AdminNavigation adminName={adminName} adminEmail={adminEmail} lang={lang} theme={theme}>
+    <AdminNavigation adminName={adminName} adminEmail={adminEmail} lang={lang} theme={theme} contactCount={contactCount}>
       {children}
     </AdminNavigation>
   );

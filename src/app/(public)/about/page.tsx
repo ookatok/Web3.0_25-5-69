@@ -8,6 +8,7 @@ import React from "react";
 import { Shirt, Sparkles, Award } from "lucide-react";
 import { cookies } from "next/headers";
 import { translations } from "@/shared/i18n/translations";
+import Image from "next/image";
 
 export default async function AboutPage() {
   const cookieStore = await cookies();
@@ -19,12 +20,14 @@ export default async function AboutPage() {
       {/* Intro Header Card */}
       <div className="w-full max-w-5xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-14 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center">
         {/* Banner Background Image Overlay */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 hidden md:block">
+          <Image
             src="/about_banner_bg.png"
             alt="About Banner Background"
-            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+            fill
+            sizes="(max-width: 768px) 1px, 1024px"
+            priority
+            className="object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
           />
         </div>
         

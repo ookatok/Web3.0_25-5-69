@@ -12,6 +12,7 @@ import { cookies } from "next/headers";
 import { translations } from "@/shared/i18n/translations";
 import { container } from "@/infrastructure/di/container";
 import HeroSlideshow from "@/presentation/components/shared/HeroSlideshow";
+import Image from "next/image";
 
 export default async function HomePage() {
   const cookieStore = await cookies();
@@ -123,45 +124,73 @@ export default async function HomePage() {
     ];
   }
 
-  // Mock Blogs (localized)
-  const latestBlogs = [
-    {
-      title: lang === "th"
-        ? "5 วิธีดูแลรักษาเสื้อยืดสกรีนลาย ให้สวยงามทนนาน ไม่หลุดลอกง่าย"
-        : "5 Tips to Care for Printed T-Shirts to Prevent Peeling and Fading",
-      excerpt: lang === "th"
-        ? "รวมเคล็ดลับการซักและรีดเสื้อยืดลายสกรีนให้คงทน สีไม่ตก ลายไม่แตกยืด เพื่อยืดอายุการใช้งาน..."
-        : "Discover tips for washing and ironing screen-printed t-shirts to maintain colors and prevent prints from cracking...",
-      date: lang === "th" ? "25 พ.ค. 2026" : "May 25, 2026",
-      slug: "how-to-care-printed-shirts",
+  // Fetch actual blog posts from database
+  let latestBlogs: any[] = [];
+  try {
+    const { posts } = await container.listPosts.execute({
+      status: "PUBLISHED",
+      limit: 2,
+    });
+    latestBlogs = posts.map(p => {
+      const data = p.toJSON();
+      const pubDate = data.publishedAt ? new Date(data.publishedAt) : new Date(data.createdAt);
+      return {
+        title: data.title,
+        excerpt: data.excerpt || (lang === "th" ? "ไม่มีบทนำสำหรับบทความนี้..." : "No excerpt available for this post..."),
+        date: pubDate.toLocaleDateString(lang === "th" ? "th-TH" : "en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+        slug: data.slug,
+      };
+    });
+  } catch (err) {
+    console.error("Failed to fetch latest blogs:", err);
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "http://localhost:3000";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Web3.0 Premium Production",
+    "url": baseUrl,
+    "telephone": "099-999-9999",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Fashion District",
+      "addressLocality": "Bangkok",
+      "addressRegion": "Bangkok",
+      "postalCode": "10110",
+      "addressCountry": "TH"
     },
-    {
-      title: lang === "th"
-        ? "เปรียบเทียบผ้าฝ้าย Cotton vs TK vs TC แบบไหนเหมาะทำเสื้อโปโลที่สุด?"
-        : "Fabric Comparison: Cotton vs TK vs TC - Which is Best for Corporate Polos?",
-      excerpt: lang === "th"
-        ? "เจาะลึกความแตกต่างของเนื้อผ้าชนิดต่างๆ ในการผลิตเสื้อโปโลพนักงาน ทั้งเรื่องการระบายอากาศและความทนทาน..."
-        : "An in-depth look at different fabrics for making staff polo shirts, comparing breathability and durability...",
-      date: lang === "th" ? "24 พ.ค. 2026" : "May 24, 2026",
-      slug: "cotton-vs-tk-vs-tc",
-    },
-  ];
+    "description": lang === "th" 
+      ? "รับผลิตเสื้อยืด เสื้อโปโล ยูนิฟอร์มพนักงาน และหมวกแก๊ปพรีเมียมเกรดสั่งทำพิเศษ"
+      : "Premium custom garment production for corporate polos, t-shirts, uniforms, and caps."
+  };
 
   return (
     <div className="relative overflow-hidden bg-theme-bg text-theme-text transition-colors duration-300 font-sans pb-24 px-4 sm:px-6 lg:px-8 space-y-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className="relative pt-28 pb-12">
         <div className="w-full max-w-7xl mx-auto bg-theme-card-bg/95 backdrop-blur-md text-theme-card-text rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-14 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
           {/* Ambient Glow Blobs */}
-          <div className="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none"></div>
-          <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-purple-500/10 blur-[120px] pointer-events-none"></div>
+          <div className="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none hidden md:block"></div>
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-purple-500/10 blur-[120px] pointer-events-none hidden md:block"></div>
           
           {/* Fashion Background Image Overlay */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 hidden md:block">
+            <Image
               src="/hero_fashion_bg.png"
               alt="Fashion Background Texture"
-              className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+              fill
+              sizes="(max-width: 768px) 1px, 1280px"
+              priority
+              className="object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
             />
           </div>
 
@@ -257,12 +286,13 @@ export default async function HomePage() {
                 <div className="bg-theme-bg text-theme-card-text rounded-[2rem] p-6 border-2 border-transparent hover:border-theme-inverted-text transition-all flex flex-col justify-between min-h-[30rem] h-auto group">
                   <div className="space-y-4">
                     {service.image && (
-                      <div className="relative h-44 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5 flex items-center justify-center">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                      <div className="relative h-44 w-full bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5">
+                        <Image
                           src={service.image}
                           alt={service.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
                     )}
@@ -369,11 +399,13 @@ export default async function HomePage() {
                 <div className="h-64 bg-theme-card-bg border-b border-theme-card-border flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 to-indigo-500/5 group-hover:scale-105 transition-transform duration-500"></div>
                   {project.coverImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={project.coverImage}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      unoptimized={project.coverImage.startsWith("http")}
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <span className="relative z-10 text-[9px] uppercase tracking-widest text-theme-card-text bg-theme-bg/85 border border-theme-card-border rounded-full px-3 py-1">
@@ -409,31 +441,40 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {latestBlogs.map((blog) => (
-              <div key={blog.slug} className="p-8 rounded-[2rem] bg-theme-bg border border-theme-card-border hover:border-theme-card-text transition-all group flex flex-col justify-between min-h-[220px]">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-[9px] text-theme-card-subtext font-mono font-semibold uppercase">
-                    <BookOpen className="w-3 h-3" />
-                    <span>{blog.date}</span>
+          {latestBlogs.length === 0 ? (
+            <div className="text-center py-12 bg-theme-bg/50 border border-theme-card-border rounded-[2rem] space-y-2">
+              <BookOpen className="w-8 h-8 text-theme-card-subtext mx-auto opacity-40 animate-pulse" />
+              <p className="font-mono text-xs text-theme-card-subtext uppercase tracking-widest">
+                {lang === "th" ? "ไม่มีบทความล่าสุดในขณะนี้" : "No articles available at this time"}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {latestBlogs.map((blog) => (
+                <div key={blog.slug} className="p-8 rounded-[2rem] bg-theme-bg border border-theme-card-border hover:border-theme-card-text transition-all group flex flex-col justify-between min-h-[220px]">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[9px] text-theme-card-subtext font-mono font-semibold uppercase">
+                      <BookOpen className="w-3 h-3" />
+                      <span>{blog.date}</span>
+                    </div>
+                    <h3 className="font-mono text-sm font-bold text-theme-card-text group-hover:text-theme-card-subtext transition-colors uppercase leading-snug">
+                      {blog.title}
+                    </h3>
+                    <p className="text-[11px] text-theme-card-subtext font-light leading-relaxed">
+                      {blog.excerpt}
+                    </p>
                   </div>
-                  <h3 className="font-mono text-sm font-bold text-theme-card-text group-hover:text-theme-card-subtext transition-colors uppercase leading-snug">
-                    {blog.title}
-                  </h3>
-                  <p className="text-[11px] text-theme-card-subtext font-light leading-relaxed">
-                    {blog.excerpt}
-                  </p>
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-widest text-theme-card-subtext group-hover:text-theme-card-text uppercase mt-4"
+                  >
+                    {t.blogRead}
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-all" />
+                  </Link>
                 </div>
-                <Link
-                  href={`/blog/${blog.slug}`}
-                  className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-widest text-theme-card-subtext group-hover:text-theme-card-text uppercase mt-4"
-                >
-                  {t.blogRead}
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-all" />
-                </Link>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -451,7 +492,7 @@ export default async function HomePage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 font-mono">
             <Link href="/contact" className="w-full sm:w-auto">
-              <Button className="w-full py-5 px-8 rounded-full bg-theme-bg text-theme-card-text hover:bg-theme-card-text hover:text-theme-bg tracking-widest text-[9px] font-bold uppercase cursor-pointer">
+              <Button className="w-full py-5 px-8 rounded-full bg-theme-bg text-theme-card-text hover:opacity-90 transition-all tracking-widest text-[9px] font-bold uppercase cursor-pointer">
                 {t.ctaContactUs}
               </Button>
             </Link>
@@ -459,13 +500,13 @@ export default async function HomePage() {
               href="https://line.me"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-theme-bg text-theme-card-text hover:bg-theme-card-text hover:text-theme-bg transition-all uppercase"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-theme-bg text-theme-card-text hover:opacity-90 transition-all uppercase"
             >
               LINE @WEB3.0
             </a>
             <a
               href="tel:0999999999"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-theme-bg text-theme-card-text hover:bg-theme-card-text hover:text-theme-bg transition-all uppercase"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[9px] font-bold tracking-widest bg-theme-bg text-theme-card-text hover:opacity-90 transition-all uppercase"
             >
               CALL 099-999-9999
             </a>

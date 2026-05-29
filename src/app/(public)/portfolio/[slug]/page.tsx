@@ -56,16 +56,17 @@ export default async function PublicPortfolioDetailsPage({ params }: PortfolioDe
   }
 
   // Generate CreativeWork Schema JSON-LD
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "http://localhost:3000";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     "name": project.title,
     "description": project.description,
-    "image": project.images,
+    "image": project.images ? project.images.map(img => img.startsWith("http") ? img : `${baseUrl}${img}`) : [],
     "creator": {
       "@type": "Organization",
       "name": "Web3.0 Services",
-      "url": "http://localhost:3000"
+      "url": baseUrl
     }
   };
 
@@ -115,7 +116,7 @@ export default async function PublicPortfolioDetailsPage({ params }: PortfolioDe
           </div>
 
           <div className="bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-6 md:p-10 border-[4px] border-theme-card-border shadow-2xl space-y-4">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.portDescTitle}</h3>
+            <h2 className="font-mono text-xs uppercase font-bold tracking-wider">{t.portDescTitle}</h2>
             <p className="text-xs text-[#2d2e30] leading-relaxed font-light whitespace-pre-line">
               {project.description}
             </p>
@@ -125,7 +126,7 @@ export default async function PublicPortfolioDetailsPage({ params }: PortfolioDe
         {/* Right Side: Info Panel */}
         <div className="space-y-6">
           <div className="bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-8 border-[4px] border-theme-card-border shadow-2xl space-y-6">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider border-b border-[#3a3b3d] pb-3">{t.portSpecTitle}</h3>
+            <h2 className="font-mono text-xs uppercase font-bold tracking-wider border-b border-theme-card-border pb-3">{t.portSpecTitle}</h2>
             
             <ul className="space-y-4 text-xs font-mono font-bold uppercase tracking-wide text-theme-card-subtext">
               {project.client && (
@@ -164,7 +165,7 @@ export default async function PublicPortfolioDetailsPage({ params }: PortfolioDe
               )}
             </ul>
 
-            <hr className="border-[#3a3b3d]" />
+            <hr className="border-theme-card-border" />
 
             {/* CTAs */}
             <div className="space-y-3 font-mono">

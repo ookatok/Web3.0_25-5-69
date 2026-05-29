@@ -23,10 +23,11 @@ interface AdminNavigationProps {
   adminEmail: string;
   lang: "th" | "en";
   theme?: "dark" | "light";
+  contactCount?: number;
   children: React.ReactNode;
 }
 
-export default function AdminNavigation({ adminName, adminEmail, lang, theme = "dark", children }: AdminNavigationProps) {
+export default function AdminNavigation({ adminName, adminEmail, lang, theme = "dark", contactCount = 0, children }: AdminNavigationProps) {
   // 2. Initialize translation dictionary based on current active language
   const t = translations[lang];
   
@@ -105,6 +106,7 @@ export default function AdminNavigation({ adminName, adminEmail, lang, theme = "
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
+            const isContacts = link.href === "/admin/contacts";
             return (
               <Link
                 key={link.href}
@@ -117,7 +119,12 @@ export default function AdminNavigation({ adminName, adminEmail, lang, theme = "
                 )}
               >
                 <Icon className="w-3.5 h-3.5" />
-                {link.label}
+                <span className="flex-1 text-left">{link.label}</span>
+                {isContacts && contactCount > 0 && (
+                  <span className="ml-2 px-2 py-0.5 text-[8px] font-mono font-bold leading-none bg-rose-500 text-white rounded-full min-w-[16px] h-4 flex items-center justify-center animate-pulse">
+                    {contactCount}
+                  </span>
+                )}
               </Link>
             );
           })}
@@ -198,6 +205,7 @@ export default function AdminNavigation({ adminName, adminEmail, lang, theme = "
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
+            const isContacts = link.href === "/admin/contacts";
             return (
               <Link
                 key={link.href}
@@ -211,7 +219,12 @@ export default function AdminNavigation({ adminName, adminEmail, lang, theme = "
                 )}
               >
                 <Icon className="w-3.5 h-3.5" />
-                {link.label}
+                <span className="flex-1 text-left">{link.label}</span>
+                {isContacts && contactCount > 0 && (
+                  <span className="ml-2 px-2 py-0.5 text-[8px] font-mono font-bold leading-none bg-rose-500 text-white rounded-full min-w-[16px] h-4 flex items-center justify-center animate-pulse">
+                    {contactCount}
+                  </span>
+                )}
               </Link>
             );
           })}

@@ -54,7 +54,7 @@ export default function TiptapEditor({ value, onChange, disabled }: TiptapEditor
     editorProps: {
       attributes: {
         class: cn(
-          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg border border-theme-card-border bg-theme-input-bg p-4 text-xs font-light leading-relaxed text-theme-card-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 focus:border-theme-card-text transition-all font-sans prose-custom max-w-none"
+          "min-h-[250px] max-h-[500px] overflow-y-auto w-full rounded-b-lg bg-theme-input-bg p-4 text-xs font-light leading-relaxed text-theme-card-text placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-theme-card-text/20 transition-all font-sans prose-custom max-w-none"
         ),
       },
     },

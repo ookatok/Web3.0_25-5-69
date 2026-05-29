@@ -12,6 +12,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/presenta
 import { Button } from "@/presentation/components/ui/button";
 import { cookies } from "next/headers";
 import { translations } from "@/shared/i18n/translations";
+import Image from "next/image";
 
 interface PortfolioPageProps {
   searchParams: Promise<{
@@ -86,11 +87,13 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
       <div className="w-full max-w-5xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-8 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
         {/* Banner Background Image Overlay */}
         <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/portfolio_banner_bg.png"
             alt="Portfolio Production Background"
-            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
           />
         </div>
         <div className="space-y-4 relative z-10">
@@ -167,16 +170,18 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
             {projectItems.map((project) => (
               <Card 
                 key={project.id} 
-                className="group flex flex-col bg-theme-bg text-theme-card-text border-2 border-transparent hover:border-theme-card-text rounded-[2rem] overflow-hidden shadow-lg transition-all duration-300"
+                className="group flex flex-col bg-theme-card-bg text-theme-card-text border-2 border-transparent hover:border-theme-card-text rounded-[2rem] overflow-hidden shadow-lg transition-all duration-300"
               >
                 {/* Cover Image inside card with padding */}
-                <div className="relative h-72 m-3 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5">
+                <div className="relative h-72 m-3 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-theme-card-border">
                   {project.coverImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={project.coverImage}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      unoptimized={project.coverImage.startsWith("http")}
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950/20 to-purple-950/20">
@@ -184,7 +189,7 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
                     </div>
                   )}
                   {project.category && (
-                    <span className="absolute top-3 left-3 bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1">
+                    <span className="absolute top-3 left-3 bg-black/75 backdrop-blur-md text-[8px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10 text-white flex items-center gap-1">
                       <Folder className="w-3 h-3" />
                       {project.category}
                     </span>
@@ -209,7 +214,7 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
                   </p>
                 </CardContent>
 
-                <CardFooter className="p-5 pt-0 border-t border-white/5">
+                <CardFooter className="p-5 pt-0 border-t border-theme-card-border">
                   <Link 
                     href={`/portfolio/${project.slug}`} 
                     className="w-full inline-flex items-center justify-between text-[9px] font-mono tracking-widest text-theme-card-subtext group-hover:text-theme-card-text uppercase pt-4"
@@ -232,7 +237,7 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
               }`}
               className={`px-4 py-2 rounded-full border text-[9px] tracking-widest uppercase transition-colors ${
                 currentPage === 1
-                  ? "opacity-50 pointer-events-none text-theme-card-subtext border-slate-300"
+                  ? "opacity-50 pointer-events-none text-theme-card-subtext border-theme-card-border"
                   : "bg-white border-white text-black font-bold hover:bg-slate-200"
               }`}
             >
@@ -259,7 +264,7 @@ export default async function PublicPortfolioPage({ searchParams }: PortfolioPag
               }`}
               className={`px-4 py-2 rounded-full border text-[9px] tracking-widest uppercase transition-colors ${
                 currentPage === totalPages
-                  ? "opacity-50 pointer-events-none text-theme-card-subtext border-slate-300"
+                  ? "opacity-50 pointer-events-none text-theme-card-subtext border-theme-card-border"
                   : "bg-white border-white text-black font-bold hover:bg-slate-200"
               }`}
             >

@@ -5,7 +5,7 @@
  */
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Prompt } from "next/font/google";
+import { Geist, Geist_Mono, Prompt, Share_Tech_Mono, Teko } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/presentation/components/shared/CookieConsent";
 import { cookies } from "next/headers";
@@ -24,6 +24,18 @@ const prompt = Prompt({
   variable: "--font-prompt",
   subsets: ["thai", "latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const shareTechMono = Share_Tech_Mono({
+  variable: "--font-share-tech-mono",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const teko = Teko({
+  variable: "--font-teko",
+  subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -61,7 +73,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${prompt.variable} h-full antialiased ${theme}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${prompt.variable} ${shareTechMono.variable} ${teko.variable} h-full antialiased ${theme}`}
     >
       <body className="min-h-full flex flex-col">
         {children}

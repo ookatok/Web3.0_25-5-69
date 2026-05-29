@@ -72,7 +72,7 @@ export default function Navbar({ lang, theme = "dark" }: NavbarProps) {
           <div className="p-1.5 bg-white text-black rounded-md group-hover:bg-slate-200 transition-colors">
             <Shirt className="w-4 h-4 stroke-[2.5]" />
           </div>
-          <span className="font-teko text-2xl tracking-widest text-theme-card-text uppercase group-hover:text-slate-300 transition-colors pt-1">
+          <span className="font-teko text-2xl tracking-widest text-theme-card-text uppercase group-hover:text-theme-card-subtext transition-colors pt-1">
             WEB3.0
           </span>
         </Link>
@@ -117,6 +117,7 @@ export default function Navbar({ lang, theme = "dark" }: NavbarProps) {
             disabled={isPending}
             className="flex items-center justify-center p-2.5 rounded-full bg-theme-card-bg border border-theme-card-border text-theme-card-text hover:border-slate-500 transition-all cursor-pointer disabled:opacity-55 shrink-0"
             title={theme === "dark" ? "Switch to Light Mode / โหมดสว่าง" : "Switch to Dark Mode / โหมดมืด"}
+            aria-label={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
           </button>
@@ -186,6 +187,7 @@ export default function Navbar({ lang, theme = "dark" }: NavbarProps) {
                 disabled={isPending}
                 className="flex items-center justify-center p-2 rounded-full bg-theme-card-bg border border-theme-card-border text-theme-card-text hover:border-slate-500 transition-all cursor-pointer disabled:opacity-55"
                 title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                aria-label={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
               >
                 {theme === "dark" ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
               </button>

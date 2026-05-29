@@ -8,6 +8,7 @@
 
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/shared/utils/cn";
 
 interface GalleryProps {
@@ -30,11 +31,13 @@ export default function Gallery({ images, title }: GalleryProps) {
     <div className="space-y-4 font-sans">
       {/* Active Big Image */}
       <div className="relative aspect-[4/3] sm:aspect-video w-full rounded-[1.8rem] overflow-hidden border-2 border-theme-card-border bg-theme-bg">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={activeImage}
           alt={title}
-          className="w-full h-full object-cover transition-all duration-300"
+          fill
+          sizes="(max-width: 1024px) 100vw, 800px"
+          className="object-cover transition-all duration-300"
+          unoptimized={activeImage.startsWith("http")}
         />
       </div>
 
@@ -56,11 +59,13 @@ export default function Gallery({ images, title }: GalleryProps) {
                     : "border-transparent hover:border-theme-card-border"
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={img}
                   alt={`${title} preview ${idx + 1}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                  unoptimized={img.startsWith("http")}
                 />
               </button>
             );

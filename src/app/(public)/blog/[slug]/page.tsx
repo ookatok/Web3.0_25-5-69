@@ -7,6 +7,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Calendar, Eye, BookOpen } from "lucide-react";
 import { container } from "@/infrastructure/di/container";
 import { Button } from "@/presentation/components/ui/button";
@@ -83,18 +84,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   // Generate Article Schema JSON-LD
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "http://localhost:3000";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": post.title,
     "description": post.excerpt || "",
-    "image": post.coverImage ? [post.coverImage] : [],
+    "image": post.coverImage ? (post.coverImage.startsWith("http") ? [post.coverImage] : [`${baseUrl}${post.coverImage}`]) : [],
     "datePublished": post.publishedAt?.toISOString() || post.createdAt.toISOString(),
     "dateModified": post.updatedAt.toISOString(),
     "author": [{
       "@type": "Organization",
       "name": "Web3.0 Services",
-      "url": "http://localhost:3000"
+      "url": baseUrl
     }]
   };
 
@@ -131,7 +133,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <h1 className="font-teko text-5xl sm:text-7xl font-bold uppercase tracking-wider leading-none text-theme-card-text">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-widest text-theme-card-subtext pt-2 border-b border-[#3a3b3d] pb-4">
+          <div className="flex flex-wrap items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-widest text-theme-card-subtext pt-2 border-b border-theme-card-border pb-4">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               {post.publishedAt
@@ -153,12 +155,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Cover Image */}
       {post.coverImage && (
         <div className="w-full max-w-4xl bg-theme-card-bg border-[4px] border-theme-card-border rounded-[2.5rem] p-4 shadow-2xl overflow-hidden aspect-video relative">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={post.coverImage}
-            alt={post.title}
-            className="w-full h-full object-cover rounded-[1.8rem]"
-          />
+          <div className="relative w-full h-full rounded-[1.8rem] overflow-hidden">
+            <Image
+              src={post.coverImage}
+              alt={post.title}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+              unoptimized={post.coverImage.startsWith("http")}
+            />
+          </div>
         </div>
       )}
 
@@ -171,11 +178,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Tags Section */}
         {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 pt-8 border-t border-[#3a3b3d] mt-8 font-mono">
+          <div className="flex flex-wrap gap-2 pt-8 border-t border-theme-card-border mt-8 font-mono">
             {post.tags.map((tag) => (
               <span 
                 key={tag}
-                className="bg-theme-card-bg text-theme-card-subtext border border-white/5 text-[9px] font-bold uppercase px-3 py-1.5 rounded-full"
+                className="bg-theme-card-bg text-theme-card-subtext border border-theme-card-border text-[9px] font-bold uppercase px-3 py-1.5 rounded-full"
               >
                 #{tag}
               </span>
@@ -186,7 +193,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Bottom CTA Box Card */}
       <div className="w-full max-w-4xl bg-theme-inverted-bg text-theme-inverted-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl text-center space-y-6">
-        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.blogMore}</h3>
+        <h2 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.blogMore}</h2>
         <p className="text-xs text-theme-inverted-text/80 max-w-sm mx-auto font-light leading-relaxed">
           {t.blogMoreDesc}
         </p>
@@ -202,11 +209,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Cover Image */}
                 <div className="relative h-40 m-2.5 bg-theme-card-bg rounded-[1.3rem] overflow-hidden border border-white/5 shrink-0">
                   {rPost.coverImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={rPost.coverImage}
                       alt={rPost.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 250px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      unoptimized={rPost.coverImage.startsWith("http")}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950/20 to-purple-950/20">

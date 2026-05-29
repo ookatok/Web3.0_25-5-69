@@ -10,6 +10,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/presentation/components/ui/button";
 import { cookies } from "next/headers";
 import { translations } from "@/shared/i18n/translations";
+import Image from "next/image";
 
 export default async function ServicesPage() {
   const cookieStore = await cookies();
@@ -60,12 +61,14 @@ export default async function ServicesPage() {
       {/* Header Card */}
       <div className="w-full max-w-5xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
         {/* Banner Background Image Overlay */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 hidden md:block">
+          <Image
             src="/services_banner_bg.png"
             alt="Services Banner Background"
-            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+            fill
+            sizes="(max-width: 768px) 1px, 1024px"
+            priority
+            className="object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
           />
         </div>
         <div className="space-y-4 relative z-10">
@@ -91,12 +94,13 @@ export default async function ServicesPage() {
               <div className="bg-theme-bg text-theme-card-text rounded-[2rem] p-6 border-2 border-transparent hover:border-theme-card-text transition-all flex flex-col justify-between min-h-[24rem] h-auto group">
                 <div className="space-y-4">
                   {service.image && (
-                    <div className="relative h-56 bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5 flex items-center justify-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                    <div className="relative h-56 w-full bg-theme-card-bg rounded-[1.5rem] overflow-hidden border border-white/5">
+                      <Image
                         src={service.image}
                         alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                   )}
@@ -105,9 +109,9 @@ export default async function ServicesPage() {
                     <Sparkles className="w-3.5 h-3.5" />
                     {service.tag}
                   </span>
-                  <h3 className="font-teko text-3xl font-semibold uppercase tracking-wider pt-2">
+                  <h2 className="font-teko text-3xl font-semibold uppercase tracking-wider pt-2">
                     {service.title}
-                  </h3>
+                  </h2>
                   <p className="text-[11px] text-theme-card-subtext font-light leading-relaxed">
                     {service.description}
                   </p>

@@ -206,8 +206,33 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || "http://localhost:3000";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": detail.title,
+    "image": `${baseUrl}/${slug}_service.png`,
+    "description": detail.description,
+    "category": slug,
+    "brand": {
+      "@type": "Brand",
+      "name": "Web3.0"
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "THB",
+      "lowPrice": "150",
+      "highPrice": "450",
+      "offerCount": "100"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-theme-bg py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Back Link */}
       <div className="w-full max-w-4xl">
         <Link
@@ -241,7 +266,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Fabrics */}
           <div className="space-y-4">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailFabricTitle}</h3>
+            <h2 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailFabricTitle}</h2>
             <ul className="space-y-3">
               {detail.fabrics.map((fabric, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs text-[#2d2e30] leading-relaxed font-light">
@@ -254,7 +279,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
           {/* Features */}
           <div className="space-y-4">
-            <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailTechTitle}</h3>
+            <h2 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailTechTitle}</h2>
             <ul className="space-y-3">
               {detail.features.map((feature, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 text-xs text-[#2d2e30] leading-relaxed font-light">
@@ -269,15 +294,15 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
       {/* Ordering Steps Card */}
       <div className="w-full max-w-4xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl space-y-8">
-        <h3 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailStepTitle}</h3>
+        <h2 className="font-mono text-xs uppercase font-bold tracking-wider">{t.detailStepTitle}</h2>
         <div className="relative border-l border-slate-750 ml-3.5 pl-6 space-y-8">
           {detail.steps.map((step, idx) => (
-            <div key={idx} className="relative">
+            <div key={idx} className="relative flex items-center min-h-[1.5rem]">
               {/* Step circle */}
-              <div className="absolute -left-[35px] top-0.5 w-6 h-6 rounded-full bg-white border border-white flex items-center justify-center font-mono font-bold text-[9px] text-black">
+              <div className="absolute -left-[35px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-white flex items-center justify-center font-mono font-bold text-[9px] text-black">
                 {idx + 1}
               </div>
-              <p className="text-xs text-slate-300 font-medium pl-1">{step}</p>
+              <p className="text-xs text-theme-card-text font-medium pl-1">{step}</p>
             </div>
           ))}
         </div>
@@ -285,7 +310,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
       {/* CTA Box Card */}
       <div className="w-full max-w-4xl bg-[#c2c4c6] text-[#131415] rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl text-center space-y-6">
-        <h3 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.detailOrderTitle}</h3>
+        <h2 className="font-teko text-5xl font-bold uppercase tracking-wider leading-none">{t.detailOrderTitle}</h2>
         <p className="text-xs text-[#2d2e30] max-w-sm mx-auto font-light leading-relaxed">
           {t.detailOrderDesc}
         </p>

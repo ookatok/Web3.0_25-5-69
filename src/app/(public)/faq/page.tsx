@@ -8,6 +8,7 @@ import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/presentation/components/ui/accordion";
 import { cookies } from "next/headers";
 import { translations } from "@/shared/i18n/translations";
+import Image from "next/image";
 
 export default async function FAQPage() {
   const cookieStore = await cookies();
@@ -57,12 +58,14 @@ export default async function FAQPage() {
       {/* Header Card */}
       <div className="w-full max-w-4xl bg-theme-card-bg text-theme-card-text rounded-[2.5rem] p-6 md:p-12 border-[4px] border-theme-card-border shadow-2xl relative overflow-hidden">
         {/* Banner Background Image Overlay */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 hidden md:block">
+          <Image
             src="/faq_banner_bg.png"
             alt="FAQ Banner Background"
-            className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
+            fill
+            sizes="(max-width: 768px) 1px, 896px"
+            priority
+            className="object-cover opacity-[0.06] dark:opacity-[0.12] mix-blend-luminosity"
           />
         </div>
         <div className="space-y-4 relative z-10">

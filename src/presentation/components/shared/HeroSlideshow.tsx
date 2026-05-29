@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, Briefcase } from "lucide-react";
 import { cn } from "@/shared/utils/cn";
 
@@ -108,10 +109,14 @@ export default function HeroSlideshow({ projects, lang }: HeroSlideshowProps) {
             <div className="absolute inset-0 w-full h-full bg-theme-card-bg">
               {project.coverImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={project.coverImage}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-10000 ease-out"
+                  fill
+                  sizes="(max-width: 480px) 100vw, 480px"
+                  priority={idx === 0}
+                  className="object-cover group-hover:scale-105 transition-transform duration-10000 ease-out"
+                  unoptimized={project.coverImage.startsWith("http")}
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950/20 to-purple-950/20 p-6 text-center">
